@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>All Posts - Dev-Knot Blog</title>
+        <link>https://dev-knot.com/posts/</link>
+        <description>All Posts | Dev-Knot Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>hugotinoco@icloud.com (Hugo Tinoco)</managingEditor>
+            <webMaster>hugotinoco@icloud.com (Hugo Tinoco)</webMaster><lastBuildDate>Sun, 22 May 2022 15:49:30 -0700</lastBuildDate><atom:link href="https://dev-knot.com/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Hello Hugo</title>
+    <link>https://dev-knot.com/posts/hello-hugo/</link>
+    <pubDate>Sun, 22 May 2022 15:49:30 -0700</pubDate>
+    <author>Hugo Tinoco</author>
+    <guid>https://dev-knot.com/posts/hello-hugo/</guid>
+    <description><![CDATA[Migrating from wordpress to a new Hugo blog!]]></description>
+</item>
+</channel>
+</rss>

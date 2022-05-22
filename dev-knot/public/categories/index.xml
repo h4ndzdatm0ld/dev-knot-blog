@@ -1,0 +1,8 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Categories - Category - Dev-Knot Blog</title>
+        <link>https://dev-knot.com/categories/</link>
+        <description>Categories - Category - Dev-Knot Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>en-us</language><managingEditor>hugotinoco@icloud.com (Hugo Tinoco)</managingEditor>
+            <webMaster>hugotinoco@icloud.com (Hugo Tinoco)</webMaster><atom:link href="https://dev-knot.com/categories/" rel="self" type="application/rss+xml" /></channel>
+</rss>
