@@ -8,7 +8,7 @@ on: # yamllint disable
 jobs:
   build:
     name: "Publish to Docker Registry"
-    runs-on: "macos-latest"
+    runs-on: "ubuntu-20.04"
     steps:
       - uses: actions/checkout@v3
 

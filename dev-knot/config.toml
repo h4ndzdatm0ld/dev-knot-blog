@@ -6,6 +6,11 @@ description = "Welcome to Dev Knot Blog"
 subtitle = "Dev Knot Blog"
 defaultContentLanguage = "en"
 defaultContentLanguageName = "English"
+
+contentdir = "content"
+layoutdir = "layouts"
+publishdir = "public"
+
 # Author config
 [author]
   name = "Hugo Tinoco"
@@ -606,4 +611,3 @@ defaultContentLanguageName = "English"
     # whether to use object-fit-images to be compatible with older browsers
     # 是否使用 object-fit-images 来兼容旧式浏览器
     objectFit = false
-

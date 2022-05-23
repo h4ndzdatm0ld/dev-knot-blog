@@ -309,3 +309,5 @@ certbot/*
 
 # Terraform
 terraform/*
+
+dev-knot/resources/*
