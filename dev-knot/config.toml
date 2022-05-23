@@ -7,10 +7,6 @@ subtitle = "Dev Knot Blog"
 defaultContentLanguage = "en"
 defaultContentLanguageName = "English"
 
-contentdir = "content"
-layoutdir = "layouts"
-publishdir = "public"
-
 # Author config
 [author]
   name = "Hugo Tinoco"
@@ -29,7 +25,7 @@ publishdir = "public"
 [module]
   [module.hugoVersion]
     extended = true
-    min = "0.62.0"
+    min = "0.92.0"
 
 [params]
   # site default theme ["auto", "light", "dark"]
