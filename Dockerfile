@@ -3,6 +3,7 @@ ENV LETSENCRYPT_DOMAIN ${LETSENCRYPT_DOMAIN}
 ENV LETSENCRYPT_EMAIL ${LETSENCRYPT_EMAIL}
 
 COPY ./dev-knot /usr/src/app
+RUN hugo mod get -u github.com/dillonzq/LoveIt
 
 WORKDIR /usr/src/app
 
