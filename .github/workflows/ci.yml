@@ -19,7 +19,7 @@ jobs:
           extended: true
 
       - name: "Build"
-        run: "hugo --minify --config ./config.toml"
+        run: "hugo --minify --config ./dev-knot/config.toml"
 
       - uses: "docker/login-action@v1"
         with:
