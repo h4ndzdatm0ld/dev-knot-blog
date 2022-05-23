@@ -6,7 +6,7 @@ services:
     volumes:
       - "./dev-knot/public:/usr/share/nginx/html"
     ports:
-      # - "80:80"
+      - "8080:80"
       - "443:443"
     image: ${COMMIT_IMAGE:-h4ndzdatm0ld/dev-knot-blog:latest}
   # certbot:
