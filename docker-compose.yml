@@ -9,6 +9,15 @@ services:
       - "8080:80"
       - "443:443"
     image: ${COMMIT_IMAGE:-h4ndzdatm0ld/dev-knot-blog:latest}
+  terraform:
+    working_dir: "/usr/src/app"
+    image: "hashicorp/terraform:latest"
+    volumes:
+      - "./terraform/:/usr/src/app/"
+    environment:
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+      AWS_REGION: "${AWS_REGION}"
   # certbot:
   #   environment:
   #     LETSENCRYPT_DOMAIN: ${LETSENCRYPT_DOMAIN:-dev-knot.com}"
