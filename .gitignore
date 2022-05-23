@@ -305,3 +305,9 @@ docs/README.md
 
 # Hugo Public
 dev-knot/public/*
+certbot/*
+
+# Terraform
+terraform/*
+
+dev-knot/resources/*

@@ -6,6 +6,15 @@ services:
     volumes:
       - "./dev-knot/public:/usr/share/nginx/html"
     ports:
-      - "80:80"
+      - "8080:80"
       - "443:443"
     image: ${COMMIT_IMAGE:-h4ndzdatm0ld/dev-knot-blog:latest}
+  # certbot:
+  #   environment:
+  #     LETSENCRYPT_DOMAIN: ${LETSENCRYPT_DOMAIN:-dev-knot.com}"
+  #     LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL:-hugotinoco@icloud.com}"
+  #   image: "certbot/certbot:latest"
+  #   volumes:
+  #     - "./certbot/conf:/etc/letsencrypt"
+  #     - "./certbot/www:/var/www/certbot"
+  #   command: "certonly --webroot -w /var/www/certbot --force-renewal --email ${LETSENCRYPT_EMAIL} -d ${LETSENCRYPT_DOMAIN} --agree-tos"

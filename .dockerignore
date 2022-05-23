@@ -10,7 +10,8 @@ environments/
 **/__pycache__/
 **/.pytest_cache/
 **/.venv/
-
+# Terraform
+terraform/*
 
 # Other
 docs/_build
