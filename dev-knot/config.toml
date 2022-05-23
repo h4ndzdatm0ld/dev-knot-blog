@@ -25,6 +25,8 @@ defaultContentLanguageName = "English"
   [module.hugoVersion]
     extended = true
     min = "0.62.0"
+[[module.imports]]
+  path = 'github.com/dillonzq/LoveIt'
 
 [params]
   # site default theme ["auto", "light", "dark"]
@@ -606,3 +608,4 @@ defaultContentLanguageName = "English"
     # whether to use object-fit-images to be compatible with older browsers
     # 是否使用 object-fit-images 来兼容旧式浏览器
     objectFit = false
+
