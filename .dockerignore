@@ -1,0 +1,23 @@
+# Docker related
+Dockerfile
+docker-compose*.yml
+*.env
+environments/
+
+# Python
+**/*.pyc
+**/*.pyo
+**/__pycache__/
+**/.pytest_cache/
+**/.venv/
+
+
+# Other
+docs/_build
+FAQ.md
+.git/
+.gitignore
+.github
+LICENSE
+**/*.log
+**/.vscode/
