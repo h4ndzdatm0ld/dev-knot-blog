@@ -1,3 +1,7 @@
+provider "aws" {
+  region = "us-west-2"
+}
+
 resource "aws_amplify_app" "dev-knot-app" {
   name                     = var.blog_name
   repository               = var.repository
@@ -35,14 +39,17 @@ resource "aws_amplify_branch" "main" {
   branch_name = "main"
 
   # framework = "React"
-  stage     = "PRODUCTION"
+  stage               = "PRODUCTION"
+  enable_notification = true
 }
 resource "aws_amplify_branch" "develop" {
   app_id      = aws_amplify_app.dev-knot-app.id
   branch_name = "develop"
 
   # framework = "React"
-  stage     = "DEVELOPMENT"
+  stage               = "DEVELOPMENT"
+  enable_notification = true
+
 }
 # ADD Webhooks
 resource "aws_amplify_webhook" "main" {
@@ -55,37 +62,54 @@ resource "aws_amplify_webhook" "DEVELOPMENT" {
   branch_name = aws_amplify_branch.develop.branch_name
   description = "amplify-hook-develop"
 }
-# # ACM Certificate
-# resource "aws_acm_certificate" "blog" {
-#   provider          = aws.us-west-2
-#   domain_name       = var.blog_domain
-#   validation_method = "DNS"
 
-#   lifecycle {
-#     create_before_destroy = true
+# ACM Certificate
+resource "aws_acm_certificate" "blog" {
+  domain_name       = var.blog_domain
+  validation_method = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# CERTIFICATE AND ROUTE 53
+resource "aws_route53_zone" "primary" {
+  name = var.blog_domain
+}
+
+resource "aws_route53_record" "blog_cert" {
+  for_each = {
+    for dvo in aws_acm_certificate.blog.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
+
+  allow_overwrite = true
+  name            = each.value.name
+  records         = [each.value.record]
+  ttl             = 300
+  type            = each.value.type
+  zone_id         = aws_route53_zone.primary.zone_id
+}
+
+# resource "aws_route53_record" "blog" {
+
+#   zone_id = aws_route53_zone.primary.zone_id
+#   name    = var.blog_name
+#   type    = "A"
+
+#   alias {
+#     name                   = var.blog_domain
+#     zone_id                = aws_route53_zone.primary.zone_id
+#     evaluate_target_health = false
 #   }
-# }
-
-
-# resource "aws_route53_record" "blog_cert" {
-#   for_each = {
-#   for dvo in aws_acm_certificate.blog.domain_validation_options : dvo.domain_name => {
-#     name   = dvo.resource_record_name
-#     record = dvo.resource_record_value
-#     type   = dvo.resource_record_type
-#   }
-#   }
-
-#   allow_overwrite = true
-#   name            = each.value.name
-#   records         = [each.value.record]
-#   ttl             = 300
-#   type            = each.value.type
-#   zone_id         = data.terraform_remote_state.bootstrap.outputs.route53_hosted_zone_id
 # }
 
 # resource "aws_acm_certificate_validation" "blog_cert" {
-#   provider          = aws.us-west-2
+#   provider                = aws.us-west-2
 #   certificate_arn         = aws_acm_certificate.blog.arn
 #   validation_record_fqdns = [for record in aws_route53_record.blog_cert : record.fqdn]
 # }

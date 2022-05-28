@@ -14,7 +14,7 @@
 
 # defaults:
 #   run:
-#     working-directory: infra
+#     working-directory: terraform
 
 # jobs:
 #   build:

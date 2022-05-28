@@ -18,7 +18,7 @@ variable "repository" {
 }
 
 variable "blog_name" {
-  default = "Dev-Knot Blog"
+  default = "Dev-Knot-Blog"
   type    = string
 }
 
