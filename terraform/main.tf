@@ -29,6 +29,11 @@ resource "aws_amplify_app" "dev-knot-app" {
     status = "404"
     target = "/index.html"
   }
+  # custom_rule {
+  #   source = "https://${var.blog_domain}"
+  #   status = "302"
+  #   source = "https://www${var.blog_domain}"
+  # }
   environment_variables = {
     ENV = "dev"
   }
@@ -72,6 +77,32 @@ resource "aws_acm_certificate" "blog" {
     create_before_destroy = true
   }
 }
+resource "aws_acm_certificate" "https-blog" {
+  domain_name       = "www.${var.blog_domain}"
+  validation_method = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# Associate Domain / SSL
+resource "aws_amplify_domain_association" "dev-knot" {
+  app_id      = aws_amplify_app.dev-knot-app.id
+  domain_name = var.blog_domain
+
+  # https://example.com
+  sub_domain {
+    branch_name = aws_amplify_branch.main.branch_name
+    prefix      = ""
+  }
+
+  # https://www.example.com
+  sub_domain {
+    branch_name = aws_amplify_branch.main.branch_name
+    prefix      = "www"
+  }
+}
 
 # CERTIFICATE AND ROUTE 53
 resource "aws_route53_zone" "primary" {
@@ -95,21 +126,20 @@ resource "aws_route53_record" "blog_cert" {
   zone_id         = aws_route53_zone.primary.zone_id
 }
 
-# resource "aws_route53_record" "blog" {
+resource "aws_route53_record" "blog" {
 
-#   zone_id = aws_route53_zone.primary.zone_id
-#   name    = var.blog_name
-#   type    = "A"
+  zone_id = aws_route53_zone.primary.zone_id
+  name    = var.blog_name
+  type    = "A"
 
-#   alias {
-#     name                   = var.blog_domain
-#     zone_id                = aws_route53_zone.primary.zone_id
-#     evaluate_target_health = false
-#   }
-# }
+  alias {
+    name                   = var.blog_domain
+    zone_id                = aws_route53_zone.primary.zone_id
+    evaluate_target_health = true
+  }
+}
 
-# resource "aws_acm_certificate_validation" "blog_cert" {
-#   provider                = aws.us-west-2
-#   certificate_arn         = aws_acm_certificate.blog.arn
-#   validation_record_fqdns = [for record in aws_route53_record.blog_cert : record.fqdn]
-# }
+resource "aws_acm_certificate_validation" "blog_cert" {
+  certificate_arn         = aws_acm_certificate.blog.arn
+  validation_record_fqdns = [for record in aws_route53_record.blog_cert : record.fqdn]
+}
