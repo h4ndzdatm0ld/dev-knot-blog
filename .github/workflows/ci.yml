@@ -3,7 +3,7 @@ name: "CI-Docker-Build"
 
 on: # yamllint disable
   push:
-    branches: ["*"] # TODO: (HUGO) Change to main after testing
+    branches: ["*"]
 
 jobs:
   build:
