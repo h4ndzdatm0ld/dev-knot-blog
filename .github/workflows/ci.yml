@@ -29,12 +29,22 @@ jobs:
           password: "${{ secrets.DOCKERHUB_TOKEN }}"
 
       - name: "Docker Compose Build"
-        run: "docker-compose build"
+        run: "docker-compose build -f docker-compose-dev.yml"
 
-      - name: "Docker Push"
-        run: "docker push ${{ secrets.DOCKERHUB_USERNAME }}/dev-knot-blog:latest"
-        if: github.ref == 'refs/heads/main'
+      - name: "SET DEVELOP TAG"
+        if: github.ref == 'refs/heads/develop'
+        run: |
+          echo "IMAGE_TAG=h4ndzdatm0ld/dev-knot-blog:develop" >> $GITHUB_ENV
 
       - name: "Docker Push"
         run: "docker push ${{ secrets.DOCKERHUB_USERNAME }}/dev-knot-blog:develop"
         if: github.ref == 'refs/heads/develop'
+
+      - name: "SET LATEST TAG"
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "IMAGE_TAG=h4ndzdatm0ld/dev-knot-blog:latest" >> $GITHUB_ENV
+
+      - name: "Docker Push"
+        run: "docker push ${{ secrets.DOCKERHUB_USERNAME }}/dev-knot-blog:latest"
+        if: github.ref == 'refs/heads/main'
