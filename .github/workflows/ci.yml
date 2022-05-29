@@ -29,7 +29,7 @@ jobs:
           password: "${{ secrets.DOCKERHUB_TOKEN }}"
 
       - name: "Docker Compose Build"
-        run: "docker-compose build -f docker-compose-dev.yml"
+        run: "docker-compose -f docker-compose-dev.yml build"
 
       - name: "SET DEVELOP TAG"
         if: github.ref == 'refs/heads/develop'
