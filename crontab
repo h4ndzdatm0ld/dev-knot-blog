@@ -1,3 +1,0 @@
-# T
-crontab -e
-0 5 1 */2 *  /usr/local/bin/docker-compose up -f /var/docker/docker-compose.yml certbot

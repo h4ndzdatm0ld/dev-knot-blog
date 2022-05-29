@@ -1,20 +1,51 @@
 ---
 version: "3.8"
 services:
-  webserver:
-    build: .
+  terraform:
+    working_dir: "/usr/src/app"
+    image: "hashicorp/terraform:latest"
     volumes:
-      - "./dev-knot/public:/usr/share/nginx/html"
+      - "./terraform/:/usr/src/app/"
+    environment:
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+      AWS_REGION: "${AWS_REGION}"
+      TF_VAR_gh_access_token: "${TF_VAR_gh_access_token}"
+  traefik:
+    image: "traefik:latest"
+    container_name: "traefik"
+    restart: "unless-stopped"
     ports:
-      - "8080:80"
-      - "443:443"
-    image: ${COMMIT_IMAGE:-h4ndzdatm0ld/dev-knot-blog:latest}
-  # certbot:
-  #   environment:
-  #     LETSENCRYPT_DOMAIN: ${LETSENCRYPT_DOMAIN:-dev-knot.com}"
-  #     LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL:-hugotinoco@icloud.com}"
-  #   image: "certbot/certbot:latest"
-  #   volumes:
-  #     - "./certbot/conf:/etc/letsencrypt"
-  #     - "./certbot/www:/var/www/certbot"
-  #   command: "certonly --webroot -w /var/www/certbot --force-renewal --email ${LETSENCRYPT_EMAIL} -d ${LETSENCRYPT_DOMAIN} --agree-tos"
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefik/traefik.toml:/traefik.toml"
+      - ./traefik/acme.json:/acme.json
+    networks:
+      - "devknot"
+    labels:
+      - "traefik.frontend.rule=Host:traefik.local.dev-knot.com"
+      - "traefik.port=8080"
+      - "traefik.backend=traefik"
+      - "traefik.frontend.entryPoints=http,https"
+  hugo:
+    image: "klakegg/hugo:latest"
+    container_name: "hugo"
+    networks:
+      - "devknot"
+    working_dir: "/usr/src/app"
+    command: server --minify --config ./config.toml
+    volumes:
+      - "./dev-knot:/usr/src/app"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hugo.rule=Host(`hugo-devknot`)" # This had to be made on my local router
+      - "traefik.port=1313"
+      - "traefik.http.routers.hugo.entryPoints=web"
+    restart: unless-stopped
+
+networks:
+  devknot:
+    external:
+      name: devknot

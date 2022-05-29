@@ -1,22 +1,7 @@
-# FROM klakegg/hugo:0.93.2 as hugo
-
-# ENV LETSENCRYPT_DOMAIN ${LETSENCRYPT_DOMAIN}
-# ENV LETSENCRYPT_EMAIL ${LETSENCRYPT_EMAIL}
-# FROM nginx:alpine
-# COPY ./dev-knot /usr/src/app
-
-# WORKDIR /usr/src/app
-
-# RUN hugo --config ./config.toml
-
-# FROM nginx:alpine
-# COPY public /usr/share/nginx/html
-
-# #Copy static files to Nginx
-# COPY ./default.conf /etc/nginc/conf.d/default.conf
-
-# WORKDIR /usr/share/nginx/html
-
-# Lets keep it simple
+# This is only used for publishing to DockerHub
+# The site is served via AWS Amplify, not using the container image.
+# `docker-compose-dev.yml` uses this to build NGINX
+# For local testing, Traefik is preffered, but this will remain if needed.
 FROM nginx:alpine
+
 COPY ./dev-knot/public /usr/share/nginx/html
