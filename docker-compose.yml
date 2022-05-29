@@ -40,7 +40,7 @@ services:
       - "./dev-knot:/usr/src/app"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.hugo.rule=Host(`hugo-devknot`)" # This had to be made on my local router
+      - "traefik.http.routers.hugo.rule=Host(`localhost`)" # This had to be made on my local router
       - "traefik.port=1313"
       - "traefik.http.routers.hugo.entryPoints=web"
     restart: unless-stopped
