@@ -35,12 +35,12 @@ services:
     networks:
       - "devknot"
     working_dir: "/usr/src/app"
-    command: server --minify --config ./config.toml
+    command: serve --config ./config.toml -e production
     volumes:
       - "./dev-knot:/usr/src/app"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.hugo.rule=Host(`hugo-devknot`)" # This had to be made on my local router
+      - "traefik.http.routers.hugo.rule=Host(`localhost`)" # Or a valid DNS
       - "traefik.port=1313"
       - "traefik.http.routers.hugo.entryPoints=web"
     restart: unless-stopped

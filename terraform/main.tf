@@ -14,7 +14,7 @@ resource "aws_amplify_app" "dev-knot-app" {
       phases:
         build:
           commands:
-            - "cd dev-knot && hugo --minify --config ./config.toml"
+            - "cd dev-knot && hugo serve --config ./config.toml -e production"
       artifacts:
         baseDirectory: ./dev-knot/public
         files:
