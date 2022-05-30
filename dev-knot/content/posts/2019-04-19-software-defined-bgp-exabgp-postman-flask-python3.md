@@ -2,12 +2,14 @@
 title: Software Defined – BGP (ExaBGP, Postman, FLASK, Python3)
 author: Hugo Tinoco
 type: post
+draft: false
 date: 2019-04-19T04:54:25+00:00
 url: /2019/04/19/software-defined-bgp-exabgp-postman-flask-python3/
 timeline_notification:
   - 1555649668
 categories:
-  - Uncategorized
+  - Networking
+  - Automation
 ---
 
 Hello,

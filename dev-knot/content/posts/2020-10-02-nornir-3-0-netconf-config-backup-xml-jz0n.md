@@ -9,7 +9,8 @@ featured_image: /wp-content/uploads/2020/10/screen-shot-2020-10-01-at-2.01.09-pm
 timeline_notification:
   - 1601645187
 categories:
-  - Uncategorized
+  - Networking
+  - Automation
 tags:
   - json
   - network automation

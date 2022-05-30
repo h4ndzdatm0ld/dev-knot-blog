@@ -7,9 +7,10 @@ url: /2019/10/12/securing-ssh-with-mfagoogle-auth-on-ubuntu/
 timeline_notification:
   - 1570897534
 categories:
-  - Uncategorized
-
+  - "Networking"
+  - "Security"
 ---
+
 <img loading="lazy" class="alignnone size-full wp-image-96" src="http://localhost:8000/wp-content/uploads/2019/10/barcode.png" alt="barcode" width="652" height="459" srcset="http://localhost:8000/wp-content/uploads/2019/10/barcode.png 652w, http://localhost:8000/wp-content/uploads/2019/10/barcode-300x211.png 300w" sizes="(max-width: 652px) 100vw, 652px" />
 
 This short article will go over how I&#8217;m practicing defense in depth to secure my Linux SSH access for critical infrastructure. We will install Google-Auth on a Ubuntu Server-19 and store the Scratch Codes in our LastPass Vault.  LastPass is utilizing my YubiKey which FIDO2, FIDO U2F, one-time password (OTP), OpenPGP and smart card, choice of form factors for desktop or laptop as a form of MFA to authenticate to the cloud service.  For my AuthCodes I will also be using LastPass Authenticator, even though I am installing Google Auth on the Ubuntu instance.  Finally, for those who use SecureCRT, there is one configuration change to make to your saved sessions for ease of use and compatibility.
@@ -57,11 +58,11 @@ First, lets authenticate to LastPass using YubiKey. This is where the DiD comes 
 
 Insert the YubiKey to your local machine &#8211; Pictured is John Wick, ensuring no dogs are harmed during this blog.
 
-<img loading="lazy" class="alignnone size-full wp-image-98" src="http://localhost:8000/wp-content/uploads/2019/10/20191012_153753250_ios.jpg?w=8064" alt="20191012_153753250_iOS.jpg" width="4032" height="3024" /> 
+<img loading="lazy" class="alignnone size-full wp-image-98" src="http://localhost:8000/wp-content/uploads/2019/10/20191012_153753250_ios.jpg?w=8064" alt="20191012_153753250_iOS.jpg" width="4032" height="3024" />
 
 Now lets authenticate to LastPass  &#8211; I have previously setup my YubiKey to work as an MFA device under my LastPass account settings. See documentation on LastPass website for a quick how-to.
 
-<img loading="lazy" class="alignnone size-full wp-image-99" src="http://localhost:8000/wp-content/uploads/2019/10/lpmfa.png" alt="lpmfa.PNG" width="1657" height="762" srcset="http://localhost:8000/wp-content/uploads/2019/10/lpmfa.png 1657w, http://localhost:8000/wp-content/uploads/2019/10/lpmfa-300x138.png 300w, http://localhost:8000/wp-content/uploads/2019/10/lpmfa-1024x471.png 1024w, http://localhost:8000/wp-content/uploads/2019/10/lpmfa-768x353.png 768w, http://localhost:8000/wp-content/uploads/2019/10/lpmfa-1536x706.png 1536w" sizes="(max-width: 1657px) 100vw, 1657px" /> 
+<img loading="lazy" class="alignnone size-full wp-image-99" src="http://localhost:8000/wp-content/uploads/2019/10/lpmfa.png" alt="lpmfa.PNG" width="1657" height="762" srcset="http://localhost:8000/wp-content/uploads/2019/10/lpmfa.png 1657w, http://localhost:8000/wp-content/uploads/2019/10/lpmfa-300x138.png 300w, http://localhost:8000/wp-content/uploads/2019/10/lpmfa-1024x471.png 1024w, http://localhost:8000/wp-content/uploads/2019/10/lpmfa-768x353.png 768w, http://localhost:8000/wp-content/uploads/2019/10/lpmfa-1536x706.png 1536w" sizes="(max-width: 1657px) 100vw, 1657px" />
 
 Once fully authenticated, lets store the scratch keys somewhere safe. I personally created a &#8216;Home Network&#8217; folder inside the &#8216;SSH KEYS&#8221; section labeled &#8220;SCRATCH CODES&#8221;, sorted by machine host name.
 
@@ -72,11 +73,11 @@ Okay, lets get back to the nuts n bolts of the MFA configuration for SSH on the 
 ## **Lets edit the SSHd config file and change the default <span style="text-decoration:underline;">&#8220;ChallengeResponseAuthentication&#8221;</span> to Yes.**
 
 > htinoco@pi-hole:~$ sudo nano /etc/ssh/sshd_config
-> 
+>
 > \# Change to yes to enable challenge-response passwords (beware issues with  
 > \# some PAM modules and threads)  
 > ChallengeResponseAuthentication yes      # Change this default from no to yes!
-> 
+>
 > \# Kerberos options  
 > #KerberosAuthentication no  
 > #KerberosOrLocalPasswd yes  
@@ -90,9 +91,9 @@ Next, simply restart the SSH service:
 Now lets edit the PAM file &#8211; The <span class="ILfuVd"><span class="e24Kjd"><b>Linux</b>&#8211;<b>PAM</b> (short for Pluggable Authentication Modules which evolved from the Unix-<b>PAM</b> architecture) is a powerful suite of shared libraries used to dynamically authenticate a user to applications (or services) in a <b>Linux</b> system.</span></span>
 
 > sudo vi /etc/pam.d/sshd
-> 
+>
 > **#At the very bottom of the file, add the following line:**
-> 
+>
 > <p style="text-align:justify;">
 >   auth required pam_google_authenticator.so
 > </p>
@@ -107,18 +108,18 @@ Now, as I said, if you&#8217;re like me and have hundreds of sessions saved on y
 
 &nbsp;
 
-<img loading="lazy" class="alignnone size-full wp-image-102" src="http://localhost:8000/wp-content/uploads/2019/10/ssh.png" alt="ssh.PNG" width="1061" height="629" srcset="http://localhost:8000/wp-content/uploads/2019/10/ssh.png 1061w, http://localhost:8000/wp-content/uploads/2019/10/ssh-300x178.png 300w, http://localhost:8000/wp-content/uploads/2019/10/ssh-1024x607.png 1024w, http://localhost:8000/wp-content/uploads/2019/10/ssh-768x455.png 768w" sizes="(max-width: 1061px) 100vw, 1061px" /> 
+<img loading="lazy" class="alignnone size-full wp-image-102" src="http://localhost:8000/wp-content/uploads/2019/10/ssh.png" alt="ssh.PNG" width="1061" height="629" srcset="http://localhost:8000/wp-content/uploads/2019/10/ssh.png 1061w, http://localhost:8000/wp-content/uploads/2019/10/ssh-300x178.png 300w, http://localhost:8000/wp-content/uploads/2019/10/ssh-1024x607.png 1024w, http://localhost:8000/wp-content/uploads/2019/10/ssh-768x455.png 768w" sizes="(max-width: 1061px) 100vw, 1061px" />
 
-  1. Right click on your saved session for the Ubuntu Server with MFA.
-  2. Select Properties
-  3. Category: SSH2
-  4. Category: Authentication 
-      1. Select Keyboard Interactive
-      2. Select OK.
+1. Right click on your saved session for the Ubuntu Server with MFA.
+2. Select Properties
+3. Category: SSH2
+4. Category: Authentication
+   1. Select Keyboard Interactive
+   2. Select OK.
 
 This will allow for SecureCRT to handle the Verification Code prompt:
 
-<img loading="lazy" class="alignnone size-full wp-image-103" src="http://localhost:8000/wp-content/uploads/2019/10/mfa2.png" alt="mfa2.PNG" width="871" height="275" srcset="http://localhost:8000/wp-content/uploads/2019/10/mfa2.png 871w, http://localhost:8000/wp-content/uploads/2019/10/mfa2-300x95.png 300w, http://localhost:8000/wp-content/uploads/2019/10/mfa2-768x242.png 768w" sizes="(max-width: 871px) 100vw, 871px" /> 
+<img loading="lazy" class="alignnone size-full wp-image-103" src="http://localhost:8000/wp-content/uploads/2019/10/mfa2.png" alt="mfa2.PNG" width="871" height="275" srcset="http://localhost:8000/wp-content/uploads/2019/10/mfa2.png 871w, http://localhost:8000/wp-content/uploads/2019/10/mfa2-300x95.png 300w, http://localhost:8000/wp-content/uploads/2019/10/mfa2-768x242.png 768w" sizes="(max-width: 871px) 100vw, 871px" />
 
 There ya have it! you should be logged in now utilizing MFA.
 
@@ -134,8 +135,8 @@ Hugo Tinoco
 
 &nbsp;
 
- [1]: https://searchsecurity.techtarget.com/definition/password
- [2]: https://searchsecurity.techtarget.com/definition/security-token
- [3]: https://searchsecurity.techtarget.com/definition/biometric-verification
- [4]: https://searchsecurity.techtarget.com/definition/multifactor-authentication-MFA
- [5]: https://www.forcepoint.com/cyber-edu/defense-depth
+[1]: https://searchsecurity.techtarget.com/definition/password
+[2]: https://searchsecurity.techtarget.com/definition/security-token
+[3]: https://searchsecurity.techtarget.com/definition/biometric-verification
+[4]: https://searchsecurity.techtarget.com/definition/multifactor-authentication-MFA
+[5]: https://www.forcepoint.com/cyber-edu/defense-depth

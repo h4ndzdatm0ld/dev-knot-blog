@@ -9,7 +9,8 @@ featured_image: /wp-content/uploads/2020/09/screen-shot-2020-09-21-at-3.58.38-pm
 timeline_notification:
   - 1600965085
 categories:
-  - Uncategorized
+  - Networking
+  - Automation
 ---
 
 What a title to this post, right?

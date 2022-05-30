@@ -177,35 +177,27 @@ title = "Dev-Knot Blog"
     # Windows v8-11 磁贴颜色
     tileColor = "#da532c"
 
-  # Search config
-  # 搜索配置
-  [params.search]
-    enable = true
-    # type of search engine ["lunr", "algolia"]
-    # 搜索引擎的类型 ["lunr", "algolia"]
-    type = "lunr"
-    # max index length of the chunked content
-    # 文章内容最长索引长度
-    contentLength = 4000
-    # placeholder of the search bar
-    # 搜索框的占位提示语
-    placeholder = ""
-    # max number of results length
-    # 最大结果数目
-    maxResultLength = 10
-    # snippet length of the result
-    # 结果内容片段长度
-    snippetLength = 30
-    # HTML tag name of the highlight part in results
-    # 搜索结果中高亮部分的 HTML 标签
-    highlightTag = "em"
-    # whether to use the absolute URL based on the baseURL in search index
-    # 是否在搜索索引中使用基于 baseURL 的绝对路径
-    absoluteURL = false
-    [params.search.algolia]
-      index = ""
-      appID = ""
-      searchKey = ""
+[params.search]
+  enable = true
+  # type of search engine ["lunr", "algolia"]
+  type = "lunr"
+  # max index length of the chunked content
+  contentLength = 4000
+  # placeholder of the search bar
+  placeholder = ""
+  # LoveIt NEW | 0.2.1 max number of results length
+  maxResultLength = 10
+  # LoveIt NEW | 0.2.3 snippet length of the result
+  snippetLength = 30
+  # LoveIt NEW | 0.2.1 HTML tag name of the highlight part in results
+  highlightTag = "em"
+  # LoveIt NEW | 0.2.4 whether to use the absolute URL based on the baseURL in search index
+  absoluteURL = false
+  [params.search.algolia]
+    index = ""
+    appID = ""
+    searchKey = ""
+
 
   # Home page config
   # 主页信息设置

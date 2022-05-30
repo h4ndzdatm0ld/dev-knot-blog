@@ -2,14 +2,16 @@
 title: Programatically Enable NETCONF and MD-CLI on Nokia – SROS Using Netbox API. (Part 2)
 author: Hugo Tinoco
 type: post
+draft: true
 date: 2020-05-19T21:32:56+00:00
 url: /2020/05/19/programatically-enable-netconf-and-md-cli-on-nokia-sros-using-netbox-api-part-2/
 timeline_notification:
   - 1589923979
 categories:
-  - Uncategorized
-
+  - Networking
+  - Automation
 ---
+
 CODE: <https://github.com/h4ndzdatm0ld/sros-enable-netconf/blob/master/enable-netconf-netboxapi.py>
 
 Okay, so you&#8217;re still reading? Lets keep digging into the mind of the network team and see how this exercisce is going..  So far, we&#8217;ve got a command line tool that we can target one specific node and deploy a script to enable MD-CLI, Yang Models from Nokia and of course, NETCONF. But, how far does this really get us? Really, it&#8217;s usefull to test on a handful of nodes and see the behaviour and response to our scripts in a lab environemnt. I&#8217;ve tested it on several SROS 19.10R3 A8&#8217;s and SR1&#8217;s.
@@ -22,7 +24,7 @@ Here are the instructions: <https://netbox.readthedocs.io/en/stable/api/authenti
 
 We&#8217;ll put this token into our application.. not the most secure way of doing this, but for simplicity &#8211; we&#8217;ll store it in a var in plain text for now. In my opinion, the authorization handled by the netbox administrator should theoretically prevent us from doing anything catastrophic when providing a user with an API token. .. in a perfect world 😉
 
-Lets get to coding!<img loading="lazy" class="alignnone size-full wp-image-138" src="http://localhost:8000/wp-content/uploads/2020/05/screen-shot-2020-05-19-at-1.16.50-pm.png" alt="Screen Shot 2020-05-19 at 1.16.50 PM" width="1120" height="332" srcset="http://localhost:8000/wp-content/uploads/2020/05/screen-shot-2020-05-19-at-1.16.50-pm.png 1120w, http://localhost:8000/wp-content/uploads/2020/05/screen-shot-2020-05-19-at-1.16.50-pm-300x89.png 300w, http://localhost:8000/wp-content/uploads/2020/05/screen-shot-2020-05-19-at-1.16.50-pm-1024x304.png 1024w, http://localhost:8000/wp-content/uploads/2020/05/screen-shot-2020-05-19-at-1.16.50-pm-768x228.png 768w" sizes="(max-width: 1120px) 100vw, 1120px" /> 
+Lets get to coding!<img loading="lazy" class="alignnone size-full wp-image-138" src="http://localhost:8000/wp-content/uploads/2020/05/screen-shot-2020-05-19-at-1.16.50-pm.png" alt="Screen Shot 2020-05-19 at 1.16.50 PM" width="1120" height="332" srcset="http://localhost:8000/wp-content/uploads/2020/05/screen-shot-2020-05-19-at-1.16.50-pm.png 1120w, http://localhost:8000/wp-content/uploads/2020/05/screen-shot-2020-05-19-at-1.16.50-pm-300x89.png 300w, http://localhost:8000/wp-content/uploads/2020/05/screen-shot-2020-05-19-at-1.16.50-pm-1024x304.png 1024w, http://localhost:8000/wp-content/uploads/2020/05/screen-shot-2020-05-19-at-1.16.50-pm-768x228.png 768w" sizes="(max-width: 1120px) 100vw, 1120px" />
 
 I thought about passing the argsparsge args into this function and having the ability to pass in an arguement as a &#8216;tag&#8217; to filter by on the API call, but I didn&#8217;t think that was necessary. Although it could be usefull later and a quick and easy modification.
 

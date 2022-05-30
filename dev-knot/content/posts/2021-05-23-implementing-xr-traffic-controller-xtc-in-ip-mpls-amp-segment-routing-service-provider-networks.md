@@ -9,9 +9,10 @@ featured_image: /wp-content/uploads/2021/05/mpls_sdn_era_topology.png
 timeline_notification:
   - 1621804761
 categories:
-  - Uncategorized
+  - Networking
 tags:
   - SDN
+  - XTC
 ---
 
 Hello! Thank you for taking the time to view my blog and (possibly) follow along! I have been spending time preparing for the DEVNET SPAUTO specialist certification and I hope to create some great content thats publically available for those trying to achieve this cert.
