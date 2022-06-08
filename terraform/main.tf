@@ -1,3 +1,12 @@
+terraform {
+  cloud {
+    organization = "crunchy-org"
+    workspaces {
+      name = "dev-knot"
+    }
+  }
+}
+
 provider "aws" {
   region = "us-west-2"
 }
