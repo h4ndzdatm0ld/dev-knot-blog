@@ -41,11 +41,12 @@ services:
       - "./dev-knot:/usr/src/app"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.hugo.rule=Host(`localhost`)" # Or a valid DNS
+      - "traefik.http.routers.hugo.rule=Host(`dev-serv-01`)" # some local dns entry
       - "traefik.port=1313"
       - "traefik.http.routers.hugo.entryPoints=web"
     restart: unless-stopped
-
+    depends_on:
+      - "traefik"
 networks:
   devknot:
     external:
