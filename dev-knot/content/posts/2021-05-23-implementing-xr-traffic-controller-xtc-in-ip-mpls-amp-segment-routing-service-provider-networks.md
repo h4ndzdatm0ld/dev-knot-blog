@@ -15,7 +15,7 @@ tags:
   - XTC
 ---
 
-Hello! Thank you for taking the time to view my blog and (possibly) follow along! I have been spending time preparing for the DEVNET SPAUTO specialist certification and I hope to create some great content thats publically available for those trying to achieve this cert.
+Hello! Thank you for taking the time to view my blog and (possibly) follow along! I have been spending time preparing for the DEVNET SPAUTO specialist certification and I hope to create some great content thats publicly available for those trying to achieve this cert.
 
 I&#8217;ve been gathering all the lab materials and automation I&#8217;ve created at the following personal repository:
 
@@ -54,7 +54,7 @@ XR Traffic Controller will be an IOSXRv device in our network. This device will 
 
 <img loading="lazy" width="3636" height="2292" src="http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology.png?w=1024" alt="" class="wp-image-260" srcset="http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology.png 3636w, http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology-300x189.png 300w, http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology-1024x645.png 1024w, http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology-768x484.png 768w, http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology-1536x968.png 1536w, http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology-2048x1291.png 2048w" sizes="(max-width: 3636px) 100vw, 3636px" /> </figure>
 
-### PRE-REQs:
+### PRE-REQs
 
 There will be some basic information pertaining to Segment &#8211; Routing, but we will not go into great detail on how to configure SR in our network.
 
