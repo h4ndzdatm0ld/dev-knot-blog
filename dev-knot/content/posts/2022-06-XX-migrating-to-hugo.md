@@ -4,6 +4,8 @@ date: 2022-05-22T15:49:30-07:00
 draft: False
 author: Hugo Tinoco
 url: dev-knot.com/posts/2022-xx-xx-migrating-from-wp-to-hugo/
+toc:
+  auto: true
 categories:
   - DevOps
 tags:
@@ -32,7 +34,7 @@ A front and backend set of tools to build full-stack applications on AWS, incred
 
 First things first.. we need to get our old WordPress data and blog posts! I was paying about 60 bucks a year to host everything through WP. This limited me, as installing plugins required a level of subscription which I was not willing to pay for. So, the first step is to export your data from WP. Check out the documentation [here](https://wordpress.com/support/export/). This will export a .zip file with all images and blog posts. Now, what to do with this data? Well, we need to convert it to MarkDown format, which is what `Hugo` will expect when serving content. I found an awesome WP plugin that someone developed for this very specific purpose, the only problem is that.. we need an instance of WordPress to install the plugin and use it! Doh! Well, good thing Docker is our friend. I used the following `docker-compose.yml` file to spin up a simple, local instance of WP and install the [wordpress-to-hugo-exporter](https://github.com/SchumacherFM/wordpress-to-hugo-exporter) plugin.
 
-```bash
+```yaml
 version: "3.8"
 services:
   mariadb:
@@ -92,7 +94,7 @@ At this point, had my old blog content and I was ready to create my new blog. I 
 
 Locally, I am using `Traefik` and Hugo containers to develop content. I am unsure if I will continue using Traefik for this, as it's a little overkill. I started by volume mounting the site contents to an `nginx` container, but I was in a learning mood and wanted to see if Traefik would bring benefits. For my purpose and discovery, it's not really what I needed. It works great, but a lot of overhead if it's not gonna be used for production.
 
-```bash
+```yaml
   traefik:
     image: "traefik:latest"
     container_name: "traefik"
@@ -142,7 +144,7 @@ I am using Terraform with a cloud backend which is all being managed locally fro
 
 If you want to get an idea of the variables that I am using, check out the `variables.tf` file in the [project files](https://github.com/h4ndzdatm0ld/dev-knot-blog/blob/develop/terraform/variables.tf)
 
-```bash
+```yaml
 ---
 version: "3.8"
 services:
@@ -166,7 +168,7 @@ Example
 
 The value of this variable is the actual Token. This will satisfy the requirements to initialize terraform with the cloud backend below
 
-```bash
+```json
 terraform {
   cloud {
     organization = "crunchy-org"
@@ -181,7 +183,7 @@ terraform {
 
 This block will create the Amplify application under the correct region. The `build_spec` is a big part of the CI/CD process, as it defines the stages of the builds. For my application, the steps are very simple. Create the static site in a production manner from the git repository. Pay attention to the variables I have defined. This is specifying the Git Repository to use and the Git Token.
 
-```bash
+```yaml
 resource "aws_amplify_app" "dev-knot-app" {
   name                     = var.blog_name
   repository               = var.repository
@@ -214,7 +216,7 @@ resource "aws_amplify_app" "dev-knot-app" {
 
 Speaking of Git Repositories, we need to tell Amplify which repo branches to use! Create the branches in the following manner and assign a stage or either `PRODUCTION` or `DEVELOPMENT`. Next, a webhook needs to be populated to the Git Repository.
 
-```bash
+```json
 # ADD Branch setup to new AWS Amplify APP Resource
 resource "aws_amplify_branch" "main" {
   app_id      = aws_amplify_app.dev-knot-app.id
@@ -250,7 +252,7 @@ Of course, we want to serve our content with SSL. For my blog, my domain is insi
 
 The certificate request can take a few minutes. So, be patient.
 
-```bash
+```json
 # ACM Certificate
 resource "aws_acm_certificate" "blog" {
   domain_name       = var.blog_domain
@@ -272,7 +274,7 @@ resource "aws_acm_certificate" "https-blog" {
 
 Associate the domain to the application and create the subdomain patterns.
 
-```bash
+```json
 resource "aws_amplify_domain_association" "dev-knot" {
   app_id      = aws_amplify_app.dev-knot-app.id
   domain_name = var.blog_domain
@@ -295,7 +297,7 @@ resource "aws_amplify_domain_association" "dev-knot" {
 
 Finally, update the Route 53 records
 
-```bash
+```json
 resource "aws_route53_zone" "primary" {
   name = var.blog_domain
 }
@@ -364,7 +366,7 @@ Confirm the output and wait a few minutes while AWS infrastructure is configured
 
 So, now what?! Well, anytime I create a new post and merge code into my `develop` branch on my repository, a simple webhook triggers the `build_spec` action within AWS Amplify. An awesome feature is that AWS Amplify will serve a version of the site from the `develop` branch for previewing purposes.
 
-![Amplify](/images/2022-06/amplify-develop.png)
+![Amplify](./images/2022-06/amplify-develop.png)
 
 After locally reviewing the publicly reachable develop branch content, I can make final edits or merge to the `main` for the final product release.
 
