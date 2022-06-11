@@ -75,7 +75,7 @@ docker-compose up
 
 Once the local WordPress container is accessible, simply import the XML contents from the .zip file you exported from your original blog. Then, go ahead and download the git repo .zip format from the repository home page.
 
-![repo-zip](./images/2022-06/repo-zip.png)
+![repo-zip](/images/2022-06/repo-zip.png)
 
 The default password for this image
 
@@ -364,7 +364,7 @@ Confirm the output and wait a few minutes while AWS infrastructure is configured
 
 So, now what?! Well, anytime I create a new post and merge code into my `develop` branch on my repository, a simple webhook triggers the `build_spec` action within AWS Amplify. An awesome feature is that AWS Amplify will serve a version of the site from the `develop` branch for previewing purposes.
 
-![Amplify](./images/2022-06/amplify-develop.png)
+![Amplify](/images/2022-06/amplify-develop.png)
 
 After locally reviewing the publicly reachable develop branch content, I can make final edits or merge to the `main` for the final product release.
 
