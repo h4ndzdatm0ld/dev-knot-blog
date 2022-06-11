@@ -4,8 +4,9 @@ date: 2022-05-22T15:49:30-07:00
 draft: False
 author: Hugo Tinoco
 url: dev-knot.com/posts/2022-xx-xx-migrating-from-wp-to-hugo/
-toc:
-  auto: true
+resources:
+  - name: "featured-image"
+    src: "featured-image.png"
 categories:
   - DevOps
 tags:
@@ -16,6 +17,21 @@ tags:
   - aws
   - route53
   - aws-amplify
+hiddenFromHomePage: false
+hiddenFromSearch: false
+twemoji: false
+lightgallery: true
+ruby: true
+fraction: true
+fontawesome: true
+linkToMarkdown: true
+rssFullText: false
+toc:
+  enable: true
+  auto: true
+code:
+  copy: true
+  maxShownLines: 50
 ---
 
 ## Introduction
@@ -24,11 +40,15 @@ Welcome to my new blog! I recently took the time to migrate away from WordPress 
 
 If you want to skip the blog and just check out the project [Show me the code!](https://github.com/h4ndzdatm0ld/dev-knot-blog)
 
+{{< admonition tip >}}
+{{< version 0.2.10 >}}
+
 ### What is AWS Amplfiy?
 
 A front and backend set of tools to build full-stack applications on AWS, incredibly quickly.
 
 [AWS Amplify](https://aws.amazon.com/amplify/)
+{{< /admonition >}}
 
 ## Grabbing old WP Data
 
@@ -77,7 +97,7 @@ docker-compose up
 
 Once the local WordPress container is accessible, simply import the XML contents from the .zip file you exported from your original blog. Then, go ahead and download the git repo .zip format from the repository home page.
 
-![repo-zip](/images/2022-06/repo-zip.png)
+![repo-zip](/images/2022-06/repo-zip.png "Save as .zip")
 
 The default password for this image
 
@@ -168,7 +188,7 @@ Example
 
 The value of this variable is the actual Token. This will satisfy the requirements to initialize terraform with the cloud backend below
 
-```json
+```bash
 terraform {
   cloud {
     organization = "crunchy-org"
