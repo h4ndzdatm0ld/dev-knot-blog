@@ -370,6 +370,23 @@ After locally reviewing the publicly reachable develop branch content, I can mak
 
 Additionally, I am building an `nginx` container that is pushing to my DockerHub account upon merging to `develop` or `main` and tags the image accordingly. This was completely not needed, but it's acting as a simple backup or way to spin up my blog locally for ...whatever reason ¯\_(ツ)\_/¯
 
+## Hugo Version
+
+Depending on what theme you choose, you may need to override the version in AWS Amplify. From AWS Documentation, follow these manual steps
+
+```bash
+Using a Newer Version of Hugo
+
+If you need to use a different, perhaps newer, version of Hugo than the version currently supported by AWS Amplify:
+
+    Visit the AWS Amplify Console, and click the app you would like to modify
+    In the side navigation bar, Under App Settings, click Build settings
+    On the Build settings page, near the bottom, there is a section called Build image settings. Click Edit
+    Under Live package updates, click Add package version override
+    From the selection, click Hugo and ensure the version field says latest
+    Click Save to save the changes.
+```
+
 ## Summary
 
 I am very excited about having this new approach to blogging! I get to use VSCode to write my blogs in markdown and use all the plugins that I typically use in my normal day-to-day development, etc. Additionally, I love the ability to treat my blog as code from deploying the infra to releasing content through a CI/CD framework. AWS Amplify has a lot of other great features, such as alerting, metrics, manual triggers, code reviews and a full back-end development environment. Hope you enjoyed :)

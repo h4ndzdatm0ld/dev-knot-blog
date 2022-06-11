@@ -28,6 +28,8 @@ resource "aws_amplify_app" "dev-knot-app" {
         baseDirectory: ./dev-knot/public
         files:
           - '**/*'
+      cache:
+        paths: []
   EOT
   # The default rewrites and redirects added by the Amplify Console.
   custom_rule {
