@@ -366,9 +366,13 @@ So, now what?! Well, anytime I create a new post and merge code into my `develop
 
 ![Amplify](./images/2022-06/amplify-develop.png)
 
-After locally reviewing the publicly reachable develop branch content, I can make final edits or merge to `main` for the final product release.
+After locally reviewing the publicly reachable develop branch content, I can make final edits or merge to the `main` for the final product release.
 
 Additionally, I am building an `nginx` container that is pushing to my DockerHub account upon merging to `develop` or `main` and tags the image accordingly. This was completely not needed, but it's acting as a simple backup or way to spin up my blog locally for ...whatever reason ¯\\\_(ツ)\_/¯
+
+One other awesome feature from AWS Amplify is the ability to preview PRs before merging to a pre-defined branch. I enabled previews after enabling the AWS Amplify GitHub app to my repository.
+
+![preview](/images/amplify-preview.png)
 
 ## Hugo Version
 
