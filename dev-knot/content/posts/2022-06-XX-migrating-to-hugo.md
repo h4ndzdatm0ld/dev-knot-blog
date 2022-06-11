@@ -75,7 +75,7 @@ docker-compose up
 
 Once the local WordPress container is accessible, simply import the XML contents from the .zip file you exported from your original blog. Then, go ahead and download the git repo .zip format from the repository home page.
 
-![repo-zip](./../../static/2022-06/amplify-develop.png)
+![repo-zip](./images/2022-06/repo-zip.png)
 
 The default password for this image
 
@@ -138,7 +138,7 @@ networks:
 
 So, the bulk of the work was around configuring the infrastructure, because I did everything through Terraform. This was a bit of a learning curve, as I have never used AWS Amplify - so, automating a new thing is always a fun time. I will break up the Terraform file in this section but feel free to review it all together [here](https://github.com/h4ndzdatm0ld/dev-knot-blog/blob/develop/terraform/main.tf)
 
-I am using Terraform with a cloud backend which is all being managed locally from a terraform container with the help of docker-compose. My infrastructure won't be changing much, so I did not find the need or time to incorporate it into CI. If you go to the project repository, you can see a `terraform` folder that is volume mounted into the container.
+I am using Terraform with a cloud backend which is all being managed locally from a terraform container with the help of docker-compose. My infrastructure won't be changing much, so I did not find the need or time to incorporate it into CI. If you go to the project repository, you can see a `terraform` folder that is volume mounted into the container. The Terraform Cloud is mostly serving as a place to park my state files.
 
 If you want to get an idea of the variables that I am using, check out the `variables.tf` file in the [project files](https://github.com/h4ndzdatm0ld/dev-knot-blog/blob/develop/terraform/variables.tf)
 
@@ -364,11 +364,11 @@ Confirm the output and wait a few minutes while AWS infrastructure is configured
 
 So, now what?! Well, anytime I create a new post and merge code into my `develop` branch on my repository, a simple webhook triggers the `build_spec` action within AWS Amplify. An awesome feature is that AWS Amplify will serve a version of the site from the `develop` branch for previewing purposes.
 
-![Amplify](../../static/2022-06/amplify-develop.png)
+![Amplify](./images/2022-06/amplify-develop.png)
 
 After locally reviewing the publicly reachable develop branch content, I can make final edits or merge to `main` for the final product release.
 
-Additionally, I am building an `nginx` container that is pushing to my DockerHub account upon merging to `develop` or `main` and tags the image accordingly. This was completely not needed, but it's acting as a simple backup or way to spin up my blog locally for ...whatever reason ¯\_(ツ)\_/¯
+Additionally, I am building an `nginx` container that is pushing to my DockerHub account upon merging to `develop` or `main` and tags the image accordingly. This was completely not needed, but it's acting as a simple backup or way to spin up my blog locally for ...whatever reason ¯\\\_(ツ)\_/¯
 
 ## Hugo Version
 
@@ -377,12 +377,12 @@ Depending on what theme you choose, you may need to override the version in AWS 
 ```bash
 Using a Newer Version of Hugo
 
-If you need to use a different, perhaps newer, version of Hugo than the version currently supported by AWS Amplify:
+If you need to use a different perhaps newer, version of Hugo than the version currently supported by AWS Amplify:
 
     Visit the AWS Amplify Console, and click the app you would like to modify
     In the side navigation bar, Under App Settings, click Build settings
-    On the Build settings page, near the bottom, there is a section called Build image settings. Click Edit
-    Under Live package updates, click Add package version override
+    On the Build settings page, near the bottom, there is a section called Build image settings.
+    Click Edit Under Live package updates, click Add package version override
     From the selection, click Hugo and ensure the version field says latest
     Click Save to save the changes.
 ```

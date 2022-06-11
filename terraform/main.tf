@@ -43,7 +43,7 @@ resource "aws_amplify_app" "dev-knot-app" {
   #   source = "https://www${var.blog_domain}"
   # }
   environment_variables = {
-    ENV = "dev"
+    ENV = "dev-knot"
   }
 }
 # ADD Branch setup to new AWS Amplify APP Resource
@@ -51,7 +51,6 @@ resource "aws_amplify_branch" "main" {
   app_id      = aws_amplify_app.dev-knot-app.id
   branch_name = "main"
 
-  # framework = "React"
   stage               = "PRODUCTION"
   enable_notification = true
 }
@@ -59,7 +58,6 @@ resource "aws_amplify_branch" "develop" {
   app_id      = aws_amplify_app.dev-knot-app.id
   branch_name = "develop"
 
-  # framework = "React"
   stage               = "DEVELOPMENT"
   enable_notification = true
 
