@@ -4,23 +4,23 @@ Dev-Knot Blog Content and Infrastructure deployment with Terraform, AWS and Gith
 
 ## Deployments - AWS
 
-Builds are published from `develop` and `main` branch upon successful merge. The builds are triggered in AWS Amplify via Github Webhooks. The `develop` branch will publish a preview version of the site on with a public DNS entry that's subject to change. This can be found inside the AWS Console. Adding a custom domain to the develop branch is also possible, but not complete yet. Rules can be created by branch as well. The `main` branch will publish to `www.dev-knot.com` and my old blog domain as well, `www.admin-save.com`.
+Builds are published from `develop` and `main` branch upon successful merge. The builds are triggered in AWS Amplify via Github Webhooks. The `develop` branch will publish a preview version of the site with a public DNS entry that's subject to change. This can be found inside the AWS Console. Adding a custom domain to the develop branch is also possible, but not complete yet. Rules can be created by branch as well. The `main` branch will publish to `www.dev-knot.com` and my old blog domain as well, `www.admin-save.com`.
 
 ## Deployments - Github Actions - DockerHub
 
-For my own amusement, Github Actions packages a simple nginx container upon successful builds to `develop` and `main` and tags the image accordingly. This is not used for production, but was part of the original process to deploy with AWS Fargate. That proved to be a total overkill and now it's just an artifact that's published with no real use other than a simple portable image of my blog that can be built with docker, locally.
+For my own amusement, Github Actions packages a simple nginx container upon successful builds to `develop` and `main` and tags the image accordingly. This is not used for production but was part of the original process to deploy with AWS Fargate. That proved to be total overkill and now it's just an artifact that's published with no real use other than a simple portable image of my blog that can be built with docker, locally.
 
 ## Docker Compose
 
-These two things could probably be collapsed and either just use the `nginx` or `traefik` for local testing and dockerhub publishing instead of added complexity of managing two reverse proxies for my own entertainment.
+These two things could probably be collapsed and either just use the `nginx` or `traefik` for local testing and dockerhub publishing instead of the added complexity of managing two reverse proxies for my own entertainment.
 
-### docker-compose-dev.yml
+### nginx-web.yml
 
-This file can be called with `docker-compose -f docker-compose-dev.yml up`. Builds a local image with Nginx.
+This file can be called with `docker-compose -f nginx-web.yml up`. Builds a local image with Nginx.
 
 ### docker-compose.yml
 
-This file contains the `terraform` image that controls deployments the infrastructure used to host this blog. Additionally, it spins up a `Traefik` proxy container and a `hugo` container to preview the blog in my local development environment.
+This file contains the `terraform` image that controls deployments of the infrastructure used to host this blog. Additionally, it spins up a `Traefik` proxy container and a `hugo` container to preview the blog in my local development environment.
 
 ## Terraform
 
