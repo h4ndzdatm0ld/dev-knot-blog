@@ -4,11 +4,10 @@ date: 2022-05-22T15:49:30-07:00
 draft: False
 author: Hugo Tinoco
 url: dev-knot.com/posts/2022-xx-xx-migrating-from-wp-to-hugo/
+featuredImage: "featured-image.png"
 resources:
   - name: "featured-image"
     src: "featured-image.png"
-  - name: featured-image-preview
-    src: featured-image-preview.jpg
 categories:
   - DevOps
 tags:
@@ -28,7 +27,7 @@ linkToMarkdown: true
 rssFullText: false
 toc:
   enable: true
-  auto: true
+  auto: false
 code:
   copy: true
   maxShownLines: 50
@@ -416,7 +415,8 @@ Depending on what theme you choose, you may need to override the version in AWS 
 ```bash
 Using a Newer Version of Hugo
 
-If you need to use a different perhaps newer, version of Hugo than the version currently supported by AWS Amplify:
+If you need to use a different perhaps newer, version of Hugo than the version
+currently supported by AWS Amplify:
 
 - Visit the AWS Amplify Console, and click the app you would like to modify.
 - In the side navigation bar, Under App Settings, click Build settings
