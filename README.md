@@ -8,15 +8,17 @@ Builds are published from `develop` and `main` branch upon successful merge. The
 
 ## Deployments - Github Actions - DockerHub
 
-For my own amusement, Github Actions packages a simple nginx container upon successful builds to `develop` and `main` and tags the image accordingly. This is not used for production but was part of the original process to deploy with AWS Fargate. That proved to be total overkill and now it's just an artifact that's published with no real use other than a simple portable image of my blog that can be built with docker, locally.
+For my amusement, Github Actions packages a simple Nginx container upon successful merge to `develop` and `main` and tags the image accordingly. This is not used for production but was part of the original process to deploy with AWS Fargate. That proved to be total overkill and now it's just an artifact that's published with no real use other than a simple portable image of my blog that can be built with docker, locally.
 
-## Docker Compose
+## Docker
 
-These two things could probably be collapsed and either just use the `nginx` or `traefik` for local testing and dockerhub publishing instead of the added complexity of managing two reverse proxies for my own entertainment.
+These two things could probably be collapsed and either just use the `Nginx` or `Traefik` for local testing and Dockerhub publishing instead of the added complexity of managing two reverse proxies for my own entertainment.
 
 ### nginx-web.yml
 
 This file can be called with `docker-compose -f nginx-web.yml up`. Builds a local image with Nginx.
+
+> Try It! `docker run -it --rm -d -p 8080:80 --name blog h4ndzdatm0ld/dev-knot-blog:{latest|develop}`
 
 ### docker-compose.yml
 
@@ -24,4 +26,4 @@ This file contains the `terraform` image that controls deployments of the infras
 
 ## Terraform
 
-Terraform is managed via docker container. The state backend is hosted on terraform cloud. All deployments and modifications are managed locally and are not part of any CI at this time.
+Terraform is managed via docker container. The state backend is securely maintained on terraform cloud.

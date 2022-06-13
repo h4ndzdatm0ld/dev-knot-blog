@@ -1,19 +1,19 @@
 ---
 title: "Migrating from Wordpress to Hugo using Terraform & AWS Amplify"
+weight: 2
 date: 2022-05-22T15:49:30-07:00
 draft: False
 author: Hugo Tinoco
 url: dev-knot.com/posts/2022-xx-xx-migrating-from-wp-to-hugo/
-featuredImage: "images/2022-06/featured-image.png"
-resources:
-  - name: "featured-image"
-    src: "images/2022-06/featured-image.png"
+images: []
+featuredImage: "/images/logos/hugo.png"
+featuredImagePreview: "/images/2022-06/hugo-preview.png"
 categories:
   - DevOps
 tags:
   - terraform
   - docker
-  - WordPress
+  - wordpress
   - hugo
   - aws
   - route53
@@ -444,4 +444,4 @@ currently supported by AWS Amplify:
 
 ## Summary
 
-I am very excited about having this new approach to blogging! I get to use VSCode to write my blogs in markdown and use all the plugins that I typically use in my normal day-to-day development, etc. Additionally, I love the ability to treat my blog as code from deploying the infra to releasing content through a CI/CD framework. AWS Amplify has a lot of other great features, such as alerting, metrics, manual triggers, code reviews and a full back-end development environment. As for my previous blog-posts on this new site, they need a lot of love and updates to render properly. I may or may not take the time to do that. Hope you enjoyed :)
+I am very excited about having this new approach to blogging! I get to use VSCode to write my blogs in markdown and use all the plugins that I typically use in my normal day-to-day development, etc. Additionally, I love the ability to treat my blog as code from deploying the infra to releasing content through CI/CD. AWS Amplify has a lot of other great features, such as alerting, metrics, manual triggers, code reviews and a full back-end development environment. As for my previous blog-posts on this new site, they need a lot of love and updates to render properly. I may or may not take the time to do that. Hope you enjoyed :)
