@@ -412,15 +412,17 @@ Confirm the output and wait a few minutes while AWS infrastructure is configured
 
 So, now what?! Well, anytime I create a new post and merge code into my `develop` or `main` branch, a simple webhook triggers the `build_spec` action within AWS Amplify.
 
-![Amplify](./images/2022-06/amplify-develop.png)
+![Amplify](/images/2022-06/amplify-develop.png)
 
 After locally reviewing the publicly reachable develop branch content, I can make final edits or merge to the `main` for the final product release.
 
 Additionally, I am building an `nginx` container that is pushing to my DockerHub account upon merging to `develop` or `main` and tags the image accordingly. This was completely not needed, but it's acting as a simple way to spin up my blog locally for ...whatever reason ¯\\\_(ツ)\_/¯
 
-One other awesome feature from AWS Amplify is the ability to preview PRs before merging to a pre-defined branch. I enabled previews after enabling the AWS Amplify GitHub app to my repository.
+> Try It! `docker run -it --rm -d -p 8080:80 --name blog h4ndzdatm0ld/dev-knot-blog:{latest|develop}`
 
-![preview](/images/amplify-preview.png)
+![preview](/images/2022-06/amplify-preview.png)
+
+> One other awesome feature from AWS Amplify is the ability to preview PRs before merging to a pre-defined branch. I enabled previews after enabling the AWS Amplify GitHub app to my repository - the configuration is under the branch resource in the terraform file.
 
 ## Hugo Version
 

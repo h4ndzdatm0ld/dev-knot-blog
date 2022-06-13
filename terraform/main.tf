@@ -12,12 +12,13 @@ provider "aws" {
 }
 
 resource "aws_amplify_app" "dev-knot-app" {
-  name                     = var.blog_name
-  repository               = var.repository
-  access_token             = var.gh_access_token
-  enable_branch_auto_build = true
-  platform                 = "WEB"
-  build_spec               = <<-EOT
+  name                        = var.blog_name
+  repository                  = var.repository
+  access_token                = var.gh_access_token
+  enable_branch_auto_build    = true
+  enable_branch_auto_deletion = true
+  platform                    = "WEB"
+  build_spec                  = <<-EOT
     version: 0.1
     frontend:
       phases:
