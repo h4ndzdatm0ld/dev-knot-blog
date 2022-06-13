@@ -1,14 +1,24 @@
+terraform {
+  cloud {
+    organization = "crunchy-org"
+    workspaces {
+      name = "dev-knot"
+    }
+  }
+}
+
 provider "aws" {
   region = "us-west-2"
 }
 
 resource "aws_amplify_app" "dev-knot-app" {
-  name                     = var.blog_name
-  repository               = var.repository
-  access_token             = var.gh_access_token
-  enable_branch_auto_build = true
-  platform                 = "WEB"
-  build_spec               = <<-EOT
+  name                        = var.blog_name
+  repository                  = var.repository
+  access_token                = var.gh_access_token
+  enable_branch_auto_build    = true
+  enable_branch_auto_deletion = true
+  platform                    = "WEB"
+  build_spec                  = <<-EOT
     version: 0.1
     frontend:
       phases:
@@ -20,8 +30,7 @@ resource "aws_amplify_app" "dev-knot-app" {
         files:
           - '**/*'
       cache:
-        paths:
-          - node_modules/**/*
+        paths: []
   EOT
   # The default rewrites and redirects added by the Amplify Console.
   custom_rule {
@@ -35,23 +44,32 @@ resource "aws_amplify_app" "dev-knot-app" {
   #   source = "https://www${var.blog_domain}"
   # }
   environment_variables = {
-    ENV = "dev"
+    ENV = "dev-knot"
+    "_LIVE_UPDATES" = jsonencode(
+      [
+        {
+          pkg     = "hugo"
+          type    = "hugo"
+          version = "latest"
+        },
+      ]
+    )
   }
 }
 # ADD Branch setup to new AWS Amplify APP Resource
 resource "aws_amplify_branch" "main" {
-  app_id      = aws_amplify_app.dev-knot-app.id
-  branch_name = "main"
+  enable_pull_request_preview = true
+  app_id                      = aws_amplify_app.dev-knot-app.id
+  branch_name                 = "main"
 
-  # framework = "React"
   stage               = "PRODUCTION"
   enable_notification = true
 }
 resource "aws_amplify_branch" "develop" {
-  app_id      = aws_amplify_app.dev-knot-app.id
-  branch_name = "develop"
+  enable_pull_request_preview = true
+  app_id                      = aws_amplify_app.dev-knot-app.id
+  branch_name                 = "develop"
 
-  # framework = "React"
   stage               = "DEVELOPMENT"
   enable_notification = true
 

@@ -7,6 +7,7 @@ variable "region" {
   type    = string
 }
 
+
 variable "blog_domain" {
   default = "dev-knot.com"
   type    = string

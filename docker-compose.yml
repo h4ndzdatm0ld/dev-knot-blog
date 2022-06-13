@@ -11,6 +11,7 @@ services:
       AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
       AWS_REGION: "${AWS_REGION}"
       TF_VAR_gh_access_token: "${TF_VAR_gh_access_token}"
+      TF_TOKEN_app_terraform_io: "${TF_TOKEN_app_terraform_io}"
   traefik:
     image: "traefik:latest"
     container_name: "traefik"
@@ -35,16 +36,17 @@ services:
     networks:
       - "devknot"
     working_dir: "/usr/src/app"
-    command: server --minify --config ./config.toml
+    command: "serve --minify --config ./config.toml -e production"
     volumes:
       - "./dev-knot:/usr/src/app"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.hugo.rule=Host(`hugo-devknot`)" # This had to be made on my local router
+      - "traefik.http.routers.hugo.rule=Host(`dev-serv-01`)" # some local dns entry
       - "traefik.port=1313"
       - "traefik.http.routers.hugo.entryPoints=web"
     restart: unless-stopped
-
+    depends_on:
+      - "traefik"
 networks:
   devknot:
     external:

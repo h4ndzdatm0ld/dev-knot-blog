@@ -1,9 +1,0 @@
----
-title: "Hello Hugo"
-date: 2022-05-22T15:49:30-07:00
-draft: False
-author: Hugo Tinoco
-tags: ["terraform", "wordpress", "hugo"]
----
-
-Migrating from wordpress to a new Hugo blog!
