@@ -24,7 +24,7 @@ resource "aws_amplify_app" "dev-knot-app" {
       phases:
         build:
           commands:
-          "cd dev-knot && hugo --minify --config ./config.toml"
+            - "cd dev-knot && hugo --minify --config ./config.toml"
       artifacts:
         baseDirectory: ./dev-knot/public
         files:
@@ -44,7 +44,7 @@ resource "aws_amplify_app" "dev-knot-app" {
   #   source = "https://www${var.blog_domain}"
   # }
   environment_variables = {
-    ENV = "production"
+    ENV = "dev-knot"
     "_LIVE_UPDATES" = jsonencode(
       [
         {
