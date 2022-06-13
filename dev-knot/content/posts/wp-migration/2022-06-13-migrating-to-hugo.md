@@ -4,7 +4,6 @@ weight: 2
 date: 2022-05-22T15:49:30-07:00
 draft: False
 author: Hugo Tinoco
-url: dev-knot.com/posts/2022-xx-xx-migrating-from-wp-to-hugo/
 images: []
 featuredImage: "/images/logos/hugo.png"
 featuredImagePreview: "/images/2022-06/hugo-preview.png"
