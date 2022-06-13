@@ -23,7 +23,7 @@ resource "aws_amplify_app" "dev-knot-app" {
       phases:
         build:
           commands:
-            - "cd dev-knot && hugo --minify --config ./config.toml"
+            - "cd dev-knot && serve --config ./config.toml -e production"
       artifacts:
         baseDirectory: ./dev-knot/public
         files:
@@ -44,19 +44,30 @@ resource "aws_amplify_app" "dev-knot-app" {
   # }
   environment_variables = {
     ENV = "dev-knot"
+    "_LIVE_UPDATES" = jsonencode(
+      [
+        {
+          pkg     = "hugo"
+          type    = "hugo"
+          version = "latest"
+        },
+      ]
+    )
   }
 }
 # ADD Branch setup to new AWS Amplify APP Resource
 resource "aws_amplify_branch" "main" {
-  app_id      = aws_amplify_app.dev-knot-app.id
-  branch_name = "main"
+  enable_pull_request_preview = true
+  app_id                      = aws_amplify_app.dev-knot-app.id
+  branch_name                 = "main"
 
   stage               = "PRODUCTION"
   enable_notification = true
 }
 resource "aws_amplify_branch" "develop" {
-  app_id      = aws_amplify_app.dev-knot-app.id
-  branch_name = "develop"
+  enable_pull_request_preview = true
+  app_id                      = aws_amplify_app.dev-knot-app.id
+  branch_name                 = "develop"
 
   stage               = "DEVELOPMENT"
   enable_notification = true

@@ -36,7 +36,7 @@ services:
     networks:
       - "devknot"
     working_dir: "/usr/src/app"
-    command: serve --config ./config.toml -e production
+    command: "serve --config ./config.toml -e production"
     volumes:
       - "./dev-knot:/usr/src/app"
     labels:

@@ -215,6 +215,11 @@ terraform {
 
 This block will create the Amplify application under the correct region. The `build_spec` is a big part of the CI/CD process, as it defines the stages of the builds. For my application, the steps are very simple. Create the static site in a production manner from the git repository. Pay attention to the variables I have defined. This is specifying the Git Repository to use and the Git Token.
 
+{{< admonition tip >}}
+{{< version 0.2.10 >}}
+The `LIVE_UPDATE` resource allows to upgrade `hugo` to the latest available release at build time.
+{{< /admonition >}}
+
 ```bash
 resource "aws_amplify_app" "dev-knot-app" {
   name                     = var.blog_name
@@ -241,12 +246,21 @@ resource "aws_amplify_app" "dev-knot-app" {
     target = "/index.html"
   }
   environment_variables = {
-    ENV = "dev"
+    ENV = "dev-knot"
+    "_LIVE_UPDATES" = jsonencode(
+      [
+        {
+          pkg     = "hugo"
+          type    = "hugo"
+          version = "latest"
+        },
+      ]
+    )
   }
 }
 ```
 
-Speaking of Git Repositories, we need to tell Amplify which repo branches to use! Create the branches in the following manner and assign a stage or either `PRODUCTION` or `DEVELOPMENT`. Next, a webhook needs to be populated to the Git Repository.
+Speaking of Git Repositories, we need to tell Amplify which repo branches to use! Create the branches in the following manner and assign a stage or either `PRODUCTION` or `DEVELOPMENT`. Next, a webhook needs to be populated to the Git Repository. The branch names can be whatever name in your repository, but the `stage` values are limited.
 
 ```bash
 # ADD Branch setup to new AWS Amplify APP Resource
