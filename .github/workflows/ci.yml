@@ -1,9 +1,9 @@
 ---
 name: "CI-Docker-Build"
 
-on: # yamllint disable
-  push:
-    branches: ["*"]
+on: # yamllint disable-line rule:truthy rule:comments
+  - "push"
+  - "pull_request"
 
 jobs:
   build:
