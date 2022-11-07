@@ -12,42 +12,24 @@ services:
       AWS_REGION: "${AWS_REGION}"
       TF_VAR_gh_access_token: "${TF_VAR_gh_access_token}"
       TF_TOKEN_app_terraform_io: "${TF_TOKEN_app_terraform_io}"
-  traefik:
-    image: "traefik:latest"
-    container_name: "traefik"
-    restart: "unless-stopped"
-    ports:
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./traefik/traefik.toml:/traefik.toml"
-      - ./traefik/acme.json:/acme.json
-    networks:
-      - "devknot"
-    labels:
-      - "traefik.frontend.rule=Host:traefik.local.dev-knot.com"
-      - "traefik.port=8080"
-      - "traefik.backend=traefik"
-      - "traefik.frontend.entryPoints=http,https"
-  hugo:
-    image: "klakegg/hugo:latest"
-    container_name: "hugo"
-    networks:
-      - "devknot"
+  blog:
+    build: "."
+    container_name: "blog"
     working_dir: "/usr/src/app"
     command: "serve --minify --config ./config.toml -e production"
     volumes:
       - "./dev-knot:/usr/src/app"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.hugo.rule=Host(`dev-serv-01`)" # some local dns entry
-      - "traefik.port=1313"
-      - "traefik.http.routers.hugo.entryPoints=web"
-    restart: unless-stopped
-    depends_on:
-      - "traefik"
-networks:
-  devknot:
-    external:
-      name: devknot
+    ports:
+      - "8080:1313"
+    image: ${IMAGE_TAG:-h4ndzdatm0ld/dev-knot-blog:latest}
+    restart: "always"
+  # blog:
+  #   image: "klakegg/hugo:latest"
+  #   container_name: "hugo"
+  #   working_dir: "/usr/src/app"
+  #   command: "serve --minify --config ./config.toml -e production"
+  #   volumes:
+  #     - "./dev-knot:/usr/src/app"
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8080:1313"
