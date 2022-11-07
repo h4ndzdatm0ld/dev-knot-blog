@@ -1,26 +1,42 @@
 ---
-title: Ansible - Generate a Dynamic Inventory at Runtime
-author: Hugo Tinoco
-type: post
+title: "Ansible - Generate a Dynamic Inventory at Runtime"
+author: "Hugo Tinoco"
+weight: 2
+date: 2022-11-06T04:02:54+00:00
 draft: false
-date: 2019-01-14T04:02:54+00:00
-url: /2019/01/14/site-to-site-ipsec-over-mpls-vpn/
-timeline_notification:
-  - 1547438717
 categories:
-  - Networking
   - Ansible
   - DevOps
   - Network Automation
+tags:
+  - Ansible
+  - NetworkAutomation
+  - Network-Automation
+  - DevOps
+hiddenFromHomePage: false
+hiddenFromSearch: false
+twemoji: false
+lightgallery: true
+fontawesome: true
+linkToMarkdown: true
+rssFullText: false
+toc:
+  enable: true
+  auto: false
+code:
+  copy: true
+  maxShownLines: 50
 ---
+
+## Introduction - The Real World
 
 We don't always get lucky enough to have a dynamic inventory from a trusted source of truth/record. Hell, sometimes we don't even have a static inventory accessible for our playbooks to use. Oh, but that's right! That team, under that BU has a spreadsheet with {X} part of the network. Maybe we can use that? Well, I'm not here to write about which problem to tackle first, but how you can leverage `ansible.builtin.add_hosts` and `json_schema` to rely on data from the user to dynamically create an inventory in memory.
 
 As Network Automation Engineers, we commonly find ourselves helping everyone and anyone across the organization to alleviate those repetitive patterns. As we continue to evolve and adapt, we must determine what is worth the effort. Can we automate this specific task, without a dynamic inventory? Sure, we can find ways around that. One thing we already know, is never to trust the input from any user. Now, how to take these two things and create a strategy that's repeatable and able to provide a `dynamic` feel to our inventories?
 
-Scenario:
+### Scenario 1 - Customer Requests
 
-A new request comes into the team. A user would like to provide you with a list of devices and extract some information from them and then decide if some action should happen or not. Simple request, right? So, what do you do with this list of devices? Surely, we won't be creating new static inventory every time and updating our repository with a new and updated YAML file every time with the correct hosts, attached to the Change Request.
+A new request comes into thea team. A user would like to provide you with a list of devices and extract some information from them and then decide if some action should happen or not. Simple request, right? So, what do you do with this list of devices? Surely, we won't be creating new static inventory every time and updating our repository with a new and updated YAML file every time with the correct hosts, attached to the Change Request.
 
 It's good to take a moment and understand where this data will come from. Does your environment run Ansible Automation Platform/Tower/Awx? Will it be executed from an API? Lets say for the sake of the blog-post, this will be ran from AWX and the data provided by the user will be passed into your playbook as `extra-vars`.
 
