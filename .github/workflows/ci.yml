@@ -1,9 +1,9 @@
 ---
 name: "CI-Docker-Build"
 
-on: # yamllint disable
-  push:
-    branches: ["*"]
+on: # yamllint disable-line rule:truthy rule:comments
+  - "push"
+  - "pull_request"
 
 jobs:
   build:
@@ -39,7 +39,7 @@ jobs:
           echo "IMAGE_TAG=${{ secrets.DOCKERHUB_USERNAME }}/dev-knot-blog:latest" >> $GITHUB_ENV
 
       - name: "Docker Compose Build"
-        run: "docker-compose -f nginx-web.yml build"
+        run: "docker-compose build blog"
 
       - name: "Docker Push"
         run: "docker push ${{ secrets.DOCKERHUB_USERNAME }}/dev-knot-blog:develop"
