@@ -3,7 +3,7 @@ title: "Ansible - Generate a Dynamic Inventory at Runtime"
 author: "Hugo Tinoco"
 weight: 2
 date: 2022-11-06T04:02:54+00:00
-draft: false
+draft: true
 categories:
   - Ansible
   - DevOps
