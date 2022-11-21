@@ -2,12 +2,6 @@
 # variables
 ###
 
-variable "region" {
-  default = "us-west-2"
-  type    = string
-}
-
-
 variable "blog_domain" {
   default = "dev-knot.com"
   type    = string
