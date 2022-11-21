@@ -20,13 +20,3 @@ services:
       - "8080:1313"
     image: ${IMAGE_TAG:-h4ndzdatm0ld/dev-knot-blog:latest}
     restart: "always"
-  # blog:
-  #   image: "klakegg/hugo:latest"
-  #   container_name: "hugo"
-  #   working_dir: "/usr/src/app"
-  #   command: "serve --minify --config ./config.toml -e production"
-  #   volumes:
-  #     - "./dev-knot:/usr/src/app"
-  #   restart: unless-stopped
-  #   ports:
-  #     - "8080:1313"

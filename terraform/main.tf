@@ -2,14 +2,18 @@ terraform {
   cloud {
     organization = "dev-knot"
     workspaces {
-      name = "dev-knot"
+      name = "dev-knot-blog"
+    }
+  }
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
     }
   }
 }
 
-provider "aws" {
-  region = "us-west-2"
-}
+provider "aws" {}
 
 resource "aws_amplify_app" "dev-knot-app" {
   name                        = var.blog_name
