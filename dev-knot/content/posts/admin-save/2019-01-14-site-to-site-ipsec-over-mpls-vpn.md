@@ -13,11 +13,11 @@ categories:
 
 I want to start by saying I&#8217;ve over complicated everything because, well, it&#8217;s my lab and it&#8217;s fun for me. Depending on customer needs, a simple MPLS L2 VRF and an IPSEC tunnel on top would be sufficient, unless the sites also require internet service by the Service Provider delivering the VRF. In a simple MPLS VPN where the service simply connects sites to sites, the IP addresses are not advertised and could be a lot more secure than over the internet. Another advantage of utilizing an MPLS VPN is the ease of troubleshooting for the customer &#8211; the service traverses only one provider &#8211; not through the internet.
 
-Lets take a deep dive at what an IPSEC tunnel looks like from an Enterprise perspective over a service provider MPLS L2/L3 VPN, not only from the CustomerSites but what actually happens inside the ServiceProvider network? In this case, we&#8217;ll be going from a statically configured site, which is Site-A on the left (Topology A below). The configuration is a Static L3 MPLS VRF provisioned with a Nokia Routed-VPLS utilizing a VRRP for Router-Redundancy (R2/R3). This is a common configuration provided by Service Providers to customers.  
+Lets take a deep dive at what an IPSEC tunnel looks like from an Enterprise perspective over a service provider MPLS L2/L3 VPN, not only from the CustomerSites but what actually happens inside the ServiceProvider network? In this case, we&#8217;ll be going from a statically configured site, which is Site-A on the left (Topology A below). The configuration is a Static L3 MPLS VRF provisioned with a Nokia Routed-VPLS utilizing a VRRP for Router-Redundancy (R2/R3). This is a common configuration provided by Service Providers to customers.
 The MPLS VRF goes across the MPLS Core Network and terminates on R6 and R5. Both of these sites are participating in the same VRF (VPRN 100) and have an eBGP session set up to the CustomerSiteB on the right side.
 
-**_A few key notes:_**  
-I&#8217;ve set up an AS-Path prepend from the Customer Router at Site B facing the eBGP session on R5 at 175.175.1.1.  
+**_A few key notes:_**
+I&#8217;ve set up an AS-Path prepend from the Customer Router at Site B facing the eBGP session on R5 at 175.175.1.1.
 The Customer Site B router is currently load balancing across both eBGP neighbors to take full advantage of the dual-homed configuation.
 
 <img loading="lazy" class="  wp-image-10 aligncenter" src="http://localhost:8000/wp-content/uploads/2019/01/site-to-siteipsecovermpls.png" alt="site-to-siteipsecovermpls" width="841" height="517" />
@@ -66,18 +66,18 @@ This is the bidriectional ISAKMP negotation of our tunnel. This policy must matc
 
 &nbsp;
 
-**Config snippet of our ISAKAMP policy. This is also applied to Site-B-GW-Router.  
+**Config snippet of our ISAKAMP policy. This is also applied to Site-B-GW-Router.
 **
 
-&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;  
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;
 Site-A-GW-Router#show run | se crypto
 
-&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;  
-crypto isakmp policy 10  
-encr aes  
-hash sha256  
-authentication pre-share  
-group 5  
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;
+crypto isakmp policy 10
+encr aes
+hash sha256
+authentication pre-share
+group 5
 Site-A-GW-Router#
 
 ---
@@ -90,7 +90,7 @@ crypto isakmp key WowWhatAPassword! address 172.172.1.2
 
 The transform set will match on both sides, here is the configuration:
 
-crypto ipsec transform-set TSET esp-aes 256 esp-sha512-hmac  
+crypto ipsec transform-set TSET esp-aes 256 esp-sha512-hmac
 mode tunnel
 
 - &#8211; Remember that a IPSec mode can be  set to two modes.
@@ -103,24 +103,24 @@ We&#8217;re ready to move on and define our &#8216;interesting&#8217; traffic. L
 
 Take note of the name of the Access List. We&#8217;ll need this for our crypto map to apply to our outbound interface.
 
-Site-A-GW-Router#show run | se access-list  
-ip access-list extended VPN-TRAFFIC  
-permit ip 192.168.1.0 0.0.0.255 172.16.1.0 0.0.0.255  
+Site-A-GW-Router#show run | se access-list
+ip access-list extended VPN-TRAFFIC
+permit ip 192.168.1.0 0.0.0.255 172.16.1.0 0.0.0.255
 Site-A-GW-Router#
 
-_Now, reverse this on the other side&#8230;_  
-Site-B-GW_Router#show run | se access-list  
-ip access-list extended VPN-TRAFFIC  
+_Now, reverse this on the other side&#8230;_
+Site-B-GW_Router#show run | se access-list
+ip access-list extended VPN-TRAFFIC
 permit ip 172.16.1.0 0.0.0.255 192.168.1.0 0.0.0.255
 
 **Almost there!** Lets create our Crypto Map and apply this to our outbound interface. This will include the peer (Neighbor far-end public facing IP of CustomerSite-B), the Transform Set name from earlier (TSET) and we will identify the &#8216;interesting&#8217; traffic to trigger the IPSEC tunnel, which we named VPN-TRAFFIC.
 
-Again, this would match on the other side, but the peer address would be substituted for the Public Facing IP of CustomerSite-A.  
-Site-A-GW-Router#show run | se crypto map  
-crypto map VPN-MAP 100 ipsec-isakmp  
-set peer 172.172.1.2  
-set transform-set TSET  
-match address VPN-TRAFFIC  
+Again, this would match on the other side, but the peer address would be substituted for the Public Facing IP of CustomerSite-A.
+Site-A-GW-Router#show run | se crypto map
+crypto map VPN-MAP 100 ipsec-isakmp
+set peer 172.172.1.2
+set transform-set TSET
+match address VPN-TRAFFIC
 Site-A-GW-Router#
 
 **After thinking further on my earlier thought, would this require a DMVPN? I think we could simply add another crypto map and have a separate peer.**
@@ -140,12 +140,12 @@ I&#8217;ll post a quick configuration of the Mirror service and debug config.
 On R1 I plugged a Kali Linux box to port 1/1/3.
 
 \*A:R1>config>mirror>mirror-dest# info
-&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-  
-remote-source  
-far-end 10.10.10.6  
-exit  
-sap 1/1/3 create  
-exit  
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-
+remote-source
+far-end 10.10.10.6
+exit
+sap 1/1/3 create
+exit
 no shutdown
 
 - The far-end command specifies the System IP address of R6. This is specifing the remote source for the capture.
@@ -153,59 +153,59 @@ no shutdown
 On R6:
 
 \*A:R6>config>mirror>mirror-dest# info
-&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-  
-spoke-sdp 61:200 create  
-no shutdown  
-exit  
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-
+spoke-sdp 61:200 create
+no shutdown
+exit
 no shutdown
 
 Here, the mirror service simply specifies a SPOKE with a VC-ID attached to it, as any other service. This is directing all the mirrored traffic to R1 via this service (200).
 
 Finally, our debug &#8211; this specifies the SOURCE port or SAP to mirror. Again, this could be either ingress or egress or both.
 
-*A:R6# show debug  
-debug  
-mirror-source 200  
-port 1/1/1 egress ingress  
-no shutdown  
-exit  
-exit  
+*A:R6# show debug
+debug
+mirror-source 200
+port 1/1/1 egress ingress
+no shutdown
+exit
+exit
 *A:R6#
 
 &#8211; Lets go back and apply our crypto map to our outbound interfaces and compare the mirror service traffic thats being replicated to our sniffer box.
 
 On CustomerSite-B and Site-A I&#8217;ve applied &#8216;crypto map VPN-MAP&#8217;
 
-interface GigabitEthernet0/1  
-ip address 172.172.1.2 255.255.255.0  
-duplex auto  
-speed auto  
-media-type rj45  
-**crypto map VPN-MAP**  
+interface GigabitEthernet0/1
+ip address 172.172.1.2 255.255.255.0
+duplex auto
+speed auto
+media-type rj45
+**crypto map VPN-MAP**
 end
 
 Now we can see our Phase 1  &#8211;
 
 Site-B-GW_Router#show crypto ipsec sa
 
-interface: GigabitEthernet0/1  
+interface: GigabitEthernet0/1
 Crypto map tag: VPN-MAP, local addr 172.172.1.2
 
-protected vrf: (none)  
-**local ident (addr/mask/prot/port): (172.16.1.0/255.255.255.0/0/0)**  
-**remote ident (addr/mask/prot/port): (192.168.1.0/255.255.255.0/0/0)**  
-current_peer 77.77.77.28 port 500  
+protected vrf: (none)
+**local ident (addr/mask/prot/port): (172.16.1.0/255.255.255.0/0/0)**
+**remote ident (addr/mask/prot/port): (192.168.1.0/255.255.255.0/0/0)**
+current_peer 77.77.77.28 port 500
 PERMIT, flags={origin_is_acl,}
-#pkts encaps: 0, #pkts encrypt: 0, #pkts digest: 0  
-#pkts decaps: 0, #pkts decrypt: 0, #pkts verify: 0  
-#pkts compressed: 0, #pkts decompressed: 0  
-#pkts not compressed: 0, #pkts compr. failed: 0  
-#pkts not decompressed: 0, #pkts decompress failed: 0  
+#pkts encaps: 0, #pkts encrypt: 0, #pkts digest: 0
+#pkts decaps: 0, #pkts decrypt: 0, #pkts verify: 0
+#pkts compressed: 0, #pkts decompressed: 0
+#pkts not compressed: 0, #pkts compr. failed: 0
+#pkts not decompressed: 0, #pkts decompress failed: 0
 #send errors 0, #recv errors 0
 
-**local crypto endpt.: 172.172.1.2, remote crypto endpt.: 77.77.77.28**  
-plaintext mtu 1500, path mtu 1500, ip mtu 1500, ip mtu idb GigabitEthernet0/1  
-current outbound spi: 0x0(0)  
+**local crypto endpt.: 172.172.1.2, remote crypto endpt.: 77.77.77.28**
+plaintext mtu 1500, path mtu 1500, ip mtu 1500, ip mtu idb GigabitEthernet0/1
+current outbound spi: 0x0(0)
 PFS (Y/N): N, DH group: none
 
 Lets not forget to add static routes pointing where to send the interesting traffic.

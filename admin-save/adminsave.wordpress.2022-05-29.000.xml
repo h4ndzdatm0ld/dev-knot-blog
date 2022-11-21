@@ -112,7 +112,7 @@
 	<link>https://adminsave.wordpress.com</link>
 	<width>32</width>
 	<height>32</height>
-</image> 
+</image>
 <item>
   <title><![CDATA[Contact]]></title>
   <link>https://adminsave.wordpress.com/contact/</link>
@@ -3376,7 +3376,7 @@ task path: /home/daniele/Desktop/ansible/prova.yml:11
  control socket path is /root/.ansible/pc/a81275af52
  local domain socket listeners started successfully
  unable to load cliconf for network_os sros
- 
+
  local domain socket path is /root/.ansible/pc/a81275af52
  socket_path: /root/.ansible/pc/a81275af52
  ESTABLISH LOCAL CONNECTION FOR USER: daniele
@@ -3393,39 +3393,39 @@ Using module file /usr/lib/python2.7/site-packages/ansible/modules/network/sros/
 fatal: [01465-RA1]: FAILED! =&gt; {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python"
-    }, 
-    "changed": false, 
+    },
+    "changed": false,
     "invocation": {
         "module_args": {
             "commands": [
                 "show version"
-            ], 
-            "host": null, 
-            "interval": 1, 
-            "match": "all", 
-            "password": null, 
-            "port": null, 
+            ],
+            "host": null,
+            "interval": 1,
+            "match": "all",
+            "password": null,
+            "port": null,
             "provider": {
-                "host": "“01465-RA1”", 
-                "password": null, 
-                "port": null, 
-                "ssh_keyfile": null, 
-                "timeout": null, 
+                "host": "“01465-RA1”",
+                "password": null,
+                "port": null,
+                "ssh_keyfile": null,
+                "timeout": null,
                 "username": null
-            }, 
-            "retries": 10, 
-            "ssh_keyfile": null, 
-            "timeout": null, 
-            "username": null, 
+            },
+            "retries": 10,
+            "ssh_keyfile": null,
+            "timeout": null,
+            "username": null,
             "wait_for": null
         }
-    }, 
-    "msg": "Unable to decode JSON from response to exec_command({\"answer\": null, \"command\": \"show version\", \"prompt\": null}). Received 'None'.", 
+    },
+    "msg": "Unable to decode JSON from response to exec_command({\"answer\": null, \"command\": \"show version\", \"prompt\": null}). Received 'None'.",
     "rc": 1
 }
 
 PLAY RECAP ***********************************************************************************************************************************************************************
-01465-RA1                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+01465-RA1                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
 
 
 do you know this?
@@ -3433,7 +3433,7 @@ thanks
 <!--more-->
 AUTHOR: daniele
 AUTHOR EMAIL: daniele.dedda@gmail.com
-AUTHOR URL: 
+AUTHOR URL:
 SUBJECT: [Adminsave] Contact
 IP: 193.33.19.125
 Array
@@ -3500,7 +3500,7 @@ task path: /home/daniele/Desktop/ansible/prova.yml:11
  control socket path is /root/.ansible/pc/a81275af52
  local domain socket listeners started successfully
  unable to load cliconf for network_os sros
- 
+
  local domain socket path is /root/.ansible/pc/a81275af52
  socket_path: /root/.ansible/pc/a81275af52
  ESTABLISH LOCAL CONNECTION FOR USER: daniele
@@ -3517,39 +3517,39 @@ Using module file /usr/lib/python2.7/site-packages/ansible/modules/network/sros/
 fatal: [01465-RA1]: FAILED! =&gt; {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python"
-    }, 
-    "changed": false, 
+    },
+    "changed": false,
     "invocation": {
         "module_args": {
             "commands": [
                 "show version"
-            ], 
-            "host": null, 
-            "interval": 1, 
-            "match": "all", 
-            "password": null, 
-            "port": null, 
+            ],
+            "host": null,
+            "interval": 1,
+            "match": "all",
+            "password": null,
+            "port": null,
             "provider": {
-                "host": "“01465-RA1”", 
-                "password": null, 
-                "port": null, 
-                "ssh_keyfile": null, 
-                "timeout": null, 
+                "host": "“01465-RA1”",
+                "password": null,
+                "port": null,
+                "ssh_keyfile": null,
+                "timeout": null,
                 "username": null
-            }, 
-            "retries": 10, 
-            "ssh_keyfile": null, 
-            "timeout": null, 
-            "username": null, 
+            },
+            "retries": 10,
+            "ssh_keyfile": null,
+            "timeout": null,
+            "username": null,
             "wait_for": null
         }
-    }, 
-    "msg": "Unable to decode JSON from response to exec_command({\"answer\": null, \"command\": \"show version\", \"prompt\": null}). Received 'None'.", 
+    },
+    "msg": "Unable to decode JSON from response to exec_command({\"answer\": null, \"command\": \"show version\", \"prompt\": null}). Received 'None'.",
     "rc": 1
 }
 
 PLAY RECAP ***********************************************************************************************************************************************************************
-01465-RA1                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+01465-RA1                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
 
 
 do you know this?
@@ -5455,7 +5455,7 @@ logging no-path
 !
 state-sync ipv4 172.16.0.201
 segment-routing
-! 
+!
 end</pre>
 <!-- /wp:syntaxhighlighter/code -->
 
@@ -5560,7 +5560,7 @@ Sat May 22 21:03:24.507 UTC
 Sun May 23 16:32:25.952 UTC
 
 Interface                      IP-Address      Status          Protocol Vrf-Name
-Loopback0                      172.16.0.11     Up              Up       default 
+Loopback0                      172.16.0.11     Up              Up       default
 
 &lt;------omitted------&gt;
 
@@ -5638,7 +5638,7 @@ end</pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">Name: tunnel-te101  Destination: 172.16.100.101  Ifhandle:0x1f0 
+<pre class="wp-block-syntaxhighlighter-code">Name: tunnel-te101  Destination: 172.16.100.101  Ifhandle:0x1f0
   Signalled-Name: AS65000_PE1_t101
   Status:
     Admin:    up Oper:   up   Path:  valid   Signalling: connected
@@ -5709,10 +5709,10 @@ Sun May 23 20:44:30.904 UTC
 Tracing MPLS TE Label Switched Path on tunnel-te11, timeout is 2 seconds
 
 Codes: '!' - success, 'Q' - request not sent, '.' - timeout,
-  'L' - labeled output interface, 'B' - unlabeled output interface, 
+  'L' - labeled output interface, 'B' - unlabeled output interface,
   'D' - DS Map mismatch, 'F' - no FEC mapping, 'f' - FEC mismatch,
-  'M' - malformed request, 'm' - unsupported tlvs, 'N' - no rx label, 
-  'P' - no rx intf label prot, 'p' - premature termination of LSP, 
+  'M' - malformed request, 'm' - unsupported tlvs, 'N' - no rx label,
+  'P' - no rx intf label prot, 'p' - premature termination of LSP,
   'R' - transit router, 'I' - unknown upstream index,
   'X' - unknown return code, 'x' - return code 0
 
@@ -5756,7 +5756,7 @@ interface tunnel-te10044
 Sun May 23 20:46:25.638 UTC
 
 
-Name: tunnel-te10044  Destination: 172.16.0.44  Ifhandle:0x1d0 
+Name: tunnel-te10044  Destination: 172.16.0.44  Ifhandle:0x1d0
   Signalled-Name: AS65000_PE1_t10044
   Status:
     Admin:    up Oper:   up   Path:  valid   Signalling: connected
@@ -5984,7 +5984,7 @@ RP/0/0/CPU0:AS65000_PE1#</pre>
 <!--more-->
 AUTHOR: Don
 AUTHOR EMAIL: certsdb@gmail.com
-AUTHOR URL: 
+AUTHOR URL:
 SUBJECT: [Adminsave] Contact
 IP: 141.193.16.159
 Array
@@ -5992,7 +5992,7 @@ Array
     [1_Name] =&gt; Don
     [2_Email] =&gt; certsdb@gmail.com
     [3_Comment] =&gt; I cannot find the ansible playbooks from your youtube videos on SROS, do you have them on github somehwere? Thanks!
-    [email_marketing_consent] =&gt; 
+    [email_marketing_consent] =&gt;
     [entry_title] =&gt; Contact
     [entry_permalink] =&gt; https://adminsave.wordpress.com/contact/
     [feedback_id] =&gt; 733c5498b33b7acd09b3b53a56a79ad3
@@ -6234,11 +6234,11 @@ Array
   <dc:creator/>
   <guid isPermaLink="false">https://adminsave.wordpress.com/?post_type=feedback&amp;p=303</guid>
   <description/>
-  <content:encoded><![CDATA[Hello, 
+  <content:encoded><![CDATA[Hello,
 
 Greetings from Ranker SEO.
 
-Are you looking for a genuine SEO service to rank your website top on Google? Are you cheated by fake SEO companies? 
+Are you looking for a genuine SEO service to rank your website top on Google? Are you cheated by fake SEO companies?
 
 You have found an affordable legitimate SEO agency to rank your website.
 
@@ -6256,18 +6256,18 @@ If you don't like to receive our messages, you can unsubscribe by click here htt
 <!--more-->
 AUTHOR: Ranker SEO
 AUTHOR EMAIL: furnell.andrea@hotmail.com
-AUTHOR URL: 
+AUTHOR URL:
 SUBJECT: [Adminsave] Contact
 IP: 80.71.150.45
 Array
 (
     [1_Name] =&gt; Ranker SEO
     [2_Email] =&gt; furnell.andrea@hotmail.com
-    [3_Comment] =&gt; Hello, 
+    [3_Comment] =&gt; Hello,
 
 Greetings from Ranker SEO.
 
-Are you looking for a genuine SEO service to rank your website top on Google? Are you cheated by fake SEO companies? 
+Are you looking for a genuine SEO service to rank your website top on Google? Are you cheated by fake SEO companies?
 
 You have found an affordable legitimate SEO agency to rank your website.
 
@@ -6282,7 +6282,7 @@ Thanks &amp; Regards
 Ranker SEO
 
 If you don't like to receive our messages, you can unsubscribe by click here https://www.ranker.one/unsubscribe/?site=wordpress.com
-    [email_marketing_consent] =&gt; 
+    [email_marketing_consent] =&gt;
     [entry_title] =&gt; Contact
     [entry_permalink] =&gt; https://adminsave.wordpress.com/contact/
     [feedback_id] =&gt; 5c2271c979d01a24c826b601ad718783
@@ -6358,7 +6358,7 @@ Dane
 <!--more-->
 AUTHOR: Dane Bynum
 AUTHOR EMAIL: bynum.dane@gmail.com
-AUTHOR URL: 
+AUTHOR URL:
 SUBJECT: [Adminsave] Contact
 IP: 198.23.217.89
 Array
@@ -6376,7 +6376,7 @@ https://youtu.be/SQHFveYdjV8
 
 Kind Regards,
 Dane
-    [email_marketing_consent] =&gt; 
+    [email_marketing_consent] =&gt;
     [entry_title] =&gt; Contact
     [entry_permalink] =&gt; https://adminsave.wordpress.com/contact/
     [feedback_id] =&gt; 3f30da724cd3de133431f4c26afa30d3

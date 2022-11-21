@@ -1,6 +1,6 @@
 terraform {
   cloud {
-    organization = "crunchy-org"
+    organization = "dev-knot"
     workspaces {
       name = "dev-knot"
     }
