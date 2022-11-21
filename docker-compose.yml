@@ -7,9 +7,6 @@ services:
     volumes:
       - "./terraform/:/usr/src/app/"
     environment:
-      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
-      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
-      AWS_REGION: "${AWS_REGION}"
       TF_VAR_gh_access_token: "${TF_VAR_gh_access_token}"
       TF_TOKEN_app_terraform_io: "${TF_TOKEN_app_terraform_io}"
   blog:
