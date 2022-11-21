@@ -42,11 +42,11 @@ It's good to take a moment and understand where this data will come from. Does y
 
 Going back to the user provided data; a list of dictionaries with device information such as the hostname. For example,
 
-```yaml
+```json
 [
   { "hostname": "some-hostname-0.kewl-corp.com", "check-this": "some expected value" },
   { "hostname": "some-hostname-1.kewl-corp.com", "check-this": "some expected value" },
-  { "hostname": "some-hostname-2.kewl-corp.com", "check-this": "some expected value" },
+  { "hostname": "some-hostname-2.kewl-corp.com", "check-this": "some expected value" }
 ]
 ```
 
@@ -117,7 +117,7 @@ schemas/user-input.json
 
 We'll create a `tasks` folder and a new YAML file within called `validate-user-input.yml` - the contents will be as followed
 
-````yaml
+```yaml
 ---
 - name: "DEFINE SCHEMA PATH"
   ansible.builtin.set_fact:
@@ -127,6 +127,9 @@ We'll create a `tasks` folder and a new YAML file within called `validate-user-i
 - name: "VALIDATE USER DATA AGAINST JSON SCHEMA"
   ansible.builtin.set_fact:
     schema_check: "{{ lookup('ansible.utils.validate', user_input, validating_schema, engine='ansible.utils.jsonschema' }}"
+```
+
+# Something here
 
 ```yaml
 ---
@@ -135,4 +138,4 @@ We'll create a `tasks` folder and a new YAML file within called `validate-user-i
   gather_facts: false
   tasks:
     - name: "VALIDATE USER INPUT WITH JSON SCHEMA"
-````
+```
