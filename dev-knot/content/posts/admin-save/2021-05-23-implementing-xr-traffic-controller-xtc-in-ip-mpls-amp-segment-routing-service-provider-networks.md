@@ -28,7 +28,7 @@ For my DEVNET SPAUTO studies I&#8217;ve decided to dedicate quite some time to X
 <div class="wp-block-syntaxhighlighter-code ">
   <pre class="brush: plain; title: ; notranslate" title="">
 4.6 Implement XR traffic controller
-(including topology information transfer to XTC) 
+(including topology information transfer to XTC)
 </pre>
 </div>
 
@@ -49,7 +49,7 @@ BGP-LS is a newer extended address-family for BGP.&nbsp; (AFI=16388, SAFI=71) &#
 
 Okay, lets head over to the demo! Our goal in our demonstration will outline an LSP being deployed across our IP/MPLS Network with Segment-Routing as the underlying Transport. Also, an LSP will be deployed across a multi-domain (ISIS-CORE & ISIS-100) network. This specific multi-domain LSP is an incredible feature! Our PE1 LSP will have a far-end destination of PE100 which resides in a different domain and PE <> PE100 do not have network reachability to each other.&nbsp;
 
-**XTC**  
+**XTC**
 XR Traffic Controller will be an IOSXRv device in our network. This device will have full PCE Server capabilities.<figure class="wp-block-image size-large">
 
 <img loading="lazy" width="3636" height="2292" src="http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology.png?w=1024" alt="" class="wp-image-260" srcset="http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology.png 3636w, http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology-300x189.png 300w, http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology-1024x645.png 1024w, http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology-768x484.png 768w, http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology-1536x968.png 1536w, http://localhost:8000/wp-content/uploads/2021/05/mpls_sdn_era_topology-2048x1291.png 2048w" sizes="(max-width: 3636px) 100vw, 3636px" /> </figure>
@@ -102,7 +102,7 @@ logging no-path
 !
 state-sync ipv4 172.16.0.201
 segment-routing
-! 
+!
 end
 </pre>
 </div>
@@ -190,7 +190,7 @@ Sat May 22 21:03:24.507 UTC
 
 ## LSP Configuration (Inter-Domain LSP)
 
-Lets create an example LSP from our node AS65000_PE1 to our FOREIGN ISIS DOMAIN 100, PE101.  
+Lets create an example LSP from our node AS65000_PE1 to our FOREIGN ISIS DOMAIN 100, PE101.
 We will provide the traffic-eng configuration within MPLS to use our PCE peer (RR2). We will source our connection from our Loopback0 address at PE1.
 
 Before we begin, lets check the computed path is available at the PCE XTC. If the path is not available, there could be some BGP-LS data missing or further troubleshooting is necessary before continuing. If there is no path, the LSP will not form at the PE.
@@ -283,7 +283,7 @@ The tunnel should now be built and established! Lets take a look at our tunnel d
 
 <div class="wp-block-syntaxhighlighter-code ">
   <pre class="brush: plain; title: ; notranslate" title="">
-Name: tunnel-te101  Destination: 172.16.100.101  Ifhandle:0x1f0 
+Name: tunnel-te101  Destination: 172.16.100.101  Ifhandle:0x1f0
   Signalled-Name: AS65000_PE1_t101
   Status:
     Admin:    up Oper:   up   Path:  valid   Signalling: connected
@@ -328,7 +328,7 @@ Displayed 1 up, 0 down, 0 recovering, 0 recovered heads
 </pre>
 </div>
 
-The same tunnel creation has been applied from PE101 back towards PE1 from PE101.  
+The same tunnel creation has been applied from PE101 back towards PE1 from PE101.
 Lets take a quick look at the tunnel configuration from PE101:
 
 <div class="wp-block-syntaxhighlighter-code ">

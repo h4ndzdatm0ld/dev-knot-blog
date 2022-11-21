@@ -38,13 +38,13 @@ I&#8217;ve installed UbuntuVM which is on the same network as my EVE-NG topology
 >   process announce-routes {<br /> run /usr/bin/python3.6m /home/htinoco/exampl.py;<br /> encoder json;<br /> }<br /> process http-api {<br /> run /usr/bin/python3.6m /home/htinoco/exabg-flask/http_api.py;<br /> encoder json;<br /> }
 > </p>
 >
-> neighbor 10.0.0.200 { # Remote Peer  
-> router-id 10.0.0.25; # Local router-id  
-> local-address 10.0.0.25; # Local update-source  
-> local-as 65001; # local AS  
+> neighbor 10.0.0.200 { # Remote Peer
+> router-id 10.0.0.25; # Local router-id
+> local-address 10.0.0.25; # Local update-source
+> local-as 65001; # local AS
 > peer-as 65000; # Peer&#8217;s AS
 >
-> api {  
+> api {
 > processes [announce-routes, http-api]; #Running multiple processes, python3 script and HTTP API(FLASK)
 >
 > }
@@ -55,15 +55,15 @@ I&#8217;ve installed UbuntuVM which is on the same network as my EVE-NG topology
 
 Here is the python script I&#8217;m calling under the &#8216;announce-routes&#8217; process, which is pointing to /home/htinoco/example.py;
 
-> #!/usr/bin/env python3  
+> #!/usr/bin/env python3
 > #Change this to the correct python version you&#8217;re using.
 >
 > from \_\_future\_\_ import print_function
 >
-> from sys import stdout  
+> from sys import stdout
 > from time import sleep
 >
-> #Static routes I want to always announce when I start ExaBGP  
+> #Static routes I want to always announce when I start ExaBGP
 > messages = [
 >
 > > &#8216;announce route 250.10.0.0/24 next-hop self&#8217;,
@@ -75,47 +75,47 @@ Here is the python script I&#8217;m calling under the &#8216;announce-routes&#82
 >
 > sleep(5)
 >
-> #Iterate through messages  
-> for message in messages:  
-> stdout.write(message + &#8216;\n&#8217;)  
-> stdout.flush()  
+> #Iterate through messages
+> for message in messages:
+> stdout.write(message + &#8216;\n&#8217;)
+> stdout.flush()
 > sleep(1)
 >
-> #Loop endlessly to allow ExaBGP to continue running  
-> while True:  
+> #Loop endlessly to allow ExaBGP to continue running
+> while True:
 > sleep(1)
 
 Now, there is also another process I&#8217;m calling, which is my FLASK app.
 
 Here is my flask app:
 
-> from flask import Flask, request  
+> from flask import Flask, request
 > from sys import stdout
 >
 > app = Flask(\_\_name\_\_)
 >
-> \# Setup a command route to listen for prefix advertisements  
-> @app.route(&#8216;/&#8217;, methods=[&#8216;POST&#8217;])  
-> def command():  
-> command = request.form[&#8216;command&#8217;]  
-> stdout.write(&#8216;%s\n&#8217; % command)  
-> stdout.flush()  
+> \# Setup a command route to listen for prefix advertisements
+> @app.route(&#8216;/&#8217;, methods=[&#8216;POST&#8217;])
+> def command():
+> command = request.form[&#8216;command&#8217;]
+> stdout.write(&#8216;%s\n&#8217; % command)
+> stdout.flush()
 > return &#8216;%s\n&#8217; % command
 >
-> @app.route(&#8216;/shutdown&#8217;, methods=[&#8216;POST&#8217;])  
-> def shutdown():  
-> shutdown_server()  
+> @app.route(&#8216;/shutdown&#8217;, methods=[&#8216;POST&#8217;])
+> def shutdown():
+> shutdown_server()
 > return &#8216;Server shutting down&#8230;&#8217;
 >
 > #The param localhost is applied so we can reach the api remotely &#8211;
 >
-> if \_\_name\_\_ == &#8216;\_\_main\_\_&#8217;:  
+> if \_\_name\_\_ == &#8216;\_\_main\_\_&#8217;:
 > app.run(host=&#8221;localhost&#8221;, port=7000, debug=True)
 >
-> #Example POSTS using postman / (BODY/KEY:COMMAND/VALUE=)  
-> #announce route 100.10.0.0/16 next-hop 172.16.2.202 med 500  
-> #announce route 100.20.0.0/16 next-hop 172.16.2.202 origin incomplete as-path [100 200 400]  
-> #announce route 100.30.0.0/16 next-hop 172.16.2.202 med 200 origin egp  
+> #Example POSTS using postman / (BODY/KEY:COMMAND/VALUE=)
+> #announce route 100.10.0.0/16 next-hop 172.16.2.202 med 500
+> #announce route 100.20.0.0/16 next-hop 172.16.2.202 origin incomplete as-path [100 200 400]
+> #announce route 100.30.0.0/16 next-hop 172.16.2.202 med 200 origin egp
 > #announce route 100.40.0.0/16 next-hop 172.16.1.2/32 community [65000:666]
 
 &nbsp;
@@ -129,10 +129,10 @@ htinoco@ubuntu-server:/etc/exabgp$ **exabgp conf.ini**
 > Here is the output after starting exabgp:
 >
 > **: \* Serving Flask app &#8220;http_api&#8221; ( lazy loading )** > **\* Running on http://0:7000/ (Press CTRL+C to quit)** > **\* Restarting with stat** > **\* Debugger is active!** > **\* Debugger PIN: 157-288-415**
-> 04:35:45 | 2699 | api | route added to neighbor 10.0.0.200 local-ip 10.0.0.25 local-as 65001 peer-as 65000 router-id 10.0.0.25 family-allowed in-open : 100.10.0.0/24 next-hop self  
-> 04:35:46 | 2699 | api | route added to neighbor 10.0.0.200 local-ip 10.0.0.25 local-as 65001 peer-as 65000 router-id 10.0.0.25 family-allowed in-open : 200.20.0.0/24 next-hop self  
-> 04:35:47 | 2699 | api | route added to neighbor 10.0.0.200 local-ip 10.0.0.25 local-as 65001 peer-as 65000 router-id 10.0.0.25 family-allowed in-open : 210.20.0.0/24 next-hop self  
-> 04:35:48 | 2699 | api | route added to neighbor 10.0.0.200 local-ip 10.0.0.25 local-as 65001 peer-as 65000 router-id 10.0.0.25 family-allowed in-open : 220.20.0.1/24 next-hop self  
+> 04:35:45 | 2699 | api | route added to neighbor 10.0.0.200 local-ip 10.0.0.25 local-as 65001 peer-as 65000 router-id 10.0.0.25 family-allowed in-open : 100.10.0.0/24 next-hop self
+> 04:35:46 | 2699 | api | route added to neighbor 10.0.0.200 local-ip 10.0.0.25 local-as 65001 peer-as 65000 router-id 10.0.0.25 family-allowed in-open : 200.20.0.0/24 next-hop self
+> 04:35:47 | 2699 | api | route added to neighbor 10.0.0.200 local-ip 10.0.0.25 local-as 65001 peer-as 65000 router-id 10.0.0.25 family-allowed in-open : 210.20.0.0/24 next-hop self
+> 04:35:48 | 2699 | api | route added to neighbor 10.0.0.200 local-ip 10.0.0.25 local-as 65001 peer-as 65000 router-id 10.0.0.25 family-allowed in-open : 220.20.0.1/24 next-hop self
 > 04:35:49 | 2699 | api | route added to neighbor 10.0.0.200 local-ip 10.0.0.25 local-as 65001 peer-as 65000 router-id 10.0.0.25 family-allowed in-open : 240.20.1.1/24 next-hop self
 
 We see the static routes advertisted to our BGP neighbor, from our python script.

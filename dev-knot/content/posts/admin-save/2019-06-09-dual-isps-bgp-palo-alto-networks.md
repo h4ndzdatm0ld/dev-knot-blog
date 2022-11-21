@@ -28,15 +28,15 @@ Something I want to start keeping in mind:
     <td align="center">
       64496 &#8211; 64511
     </td>
-    
+
     <td>
       16 bit
     </td>
-    
+
     <td>
       Reserved for use in documenation & sample code.
     </td>
-    
+
     <td>
       [<a href="http://www.iana.org/go/rfc5398">RFC5398</a>]
     </td>
@@ -164,29 +164,29 @@ The BGP session has been established with our Enterprise Cisco Router.
 
 <img loading="lazy" class="alignnone size-full wp-image-71" src="http://localhost:8000/wp-content/uploads/2019/06/ibgp.png" alt="ibgp.PNG" width="2264" height="794" srcset="http://localhost:8000/wp-content/uploads/2019/06/ibgp.png 2264w, http://localhost:8000/wp-content/uploads/2019/06/ibgp-300x105.png 300w, http://localhost:8000/wp-content/uploads/2019/06/ibgp-1024x359.png 1024w, http://localhost:8000/wp-content/uploads/2019/06/ibgp-768x269.png 768w, http://localhost:8000/wp-content/uploads/2019/06/ibgp-1536x539.png 1536w, http://localhost:8000/wp-content/uploads/2019/06/ibgp-2048x718.png 2048w" sizes="(max-width: 2264px) 100vw, 2264px" />
 
-> ENT-ROUTER#show ip bgp summary  
-> BGP router identifier 192.168.1.2, local AS number 64500  
-> BGP table version is 1, main routing table version 1  
-> 1 network entries using 144 bytes of memory  
-> 1 path entries using 80 bytes of memory  
-> 1/0 BGP path/bestpath attribute entries using 152 bytes of memory  
-> 1 BGP AS-PATH entries using 24 bytes of memory  
-> 0 BGP route-map cache entries using 0 bytes of memory  
-> 0 BGP filter-list cache entries using 0 bytes of memory  
-> BGP using 400 total bytes of memory  
+> ENT-ROUTER#show ip bgp summary
+> BGP router identifier 192.168.1.2, local AS number 64500
+> BGP table version is 1, main routing table version 1
+> 1 network entries using 144 bytes of memory
+> 1 path entries using 80 bytes of memory
+> 1/0 BGP path/bestpath attribute entries using 152 bytes of memory
+> 1 BGP AS-PATH entries using 24 bytes of memory
+> 0 BGP route-map cache entries using 0 bytes of memory
+> 0 BGP filter-list cache entries using 0 bytes of memory
+> BGP using 400 total bytes of memory
 > BGP activity 1/0 prefixes, 1/0 paths, scan interval 60 secs
 >
-> Neighbor V AS MsgRcvd MsgSent TblVer InQ OutQ Up/Down State/PfxRcd  
+> Neighbor V AS MsgRcvd MsgSent TblVer InQ OutQ Up/Down State/PfxRcd
 > 192.168.1.1 4 64500 4 4 1 0 0 00:00:21 1
 
 - _**An internal BGP session isn&#8217;t necessary, as a static default route would be plenty. However, for lab purposes lets continue with more BGP FUN.**_
 
 We can create static routes that point the two /31 interconnects to our directly connected interface from our Cisco to the Palo. This way, the default route that&#8217;s re-advertised by default is actually installed into our routing table.
 
-> **Network Next Hop Metric LocPrf Weight Path**  
+> **Network Next Hop Metric LocPrf Weight Path**
 > **\* i 0.0.0.0 172.16.64.0 200 0 64496 ?**
 >
-> **Total number of prefixes 1**  
+> **Total number of prefixes 1**
 > **ENT-ROUTER#**
 
 Again, we&#8217;re not installing this route, because our local router has no idea where 172.16.64.0 lives.

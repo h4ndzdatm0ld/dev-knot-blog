@@ -61,11 +61,11 @@ Create an alias by editing the .bashrc file and adding the previous ssh command,
 
 alias rnetbx='ssh -R 52698:localhost:52698 htinoco@10.0.0.116&#8242;
 
-> root@Snowblind-Tower:/mnt/c# nano ~/.bashrc  _**\## Sorry Randall**_  
-> root@Snowblind-Tower:/mnt/c# source ~/.bashrc  
-> root@Snowblind-Tower:/mnt/c# rnetbx   _**\## <&#8212;&#8212;&#8212;The new alias**_  
+> root@Snowblind-Tower:/mnt/c# nano ~/.bashrc  _**\## Sorry Randall**_
+> root@Snowblind-Tower:/mnt/c# source ~/.bashrc
+> root@Snowblind-Tower:/mnt/c# rnetbx   _**\## <&#8212;&#8212;&#8212;The new alias**_
 > The authenticity of host &#8216;10.0.0.116 (10.0.0.116)' can't be established.
-> ECDSA key fingerprint is SHA256:XkjSNWW8a6Nri7m5wdV5KBpdXdTT9DDD+SxZa//2qic.  
+> ECDSA key fingerprint is SHA256:XkjSNWW8a6Nri7m5wdV5KBpdXdTT9DDD+SxZa//2qic.
 > Are you sure you want to continue connecting (yes/no)?
 
 ### Arguments

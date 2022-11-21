@@ -43,13 +43,13 @@ At this point, carefully read through the prompts and select the options that ma
 
 Now, lets concentrate on properly storing the following information before finishing the configuration.
 
-> Your new secret key is: 2445XXXXJ5L6MQ575PXXXXXX  
-> Your verification code is XX29XX  
-> Your emergency scratch codes are:  
-> 8659XXXX  
-> 7X0672XX  
-> 5608XXXX  
-> 268233XX  
+> Your new secret key is: 2445XXXXJ5L6MQ575PXXXXXX
+> Your verification code is XX29XX
+> Your emergency scratch codes are:
+> 8659XXXX
+> 7X0672XX
+> 5608XXXX
+> 268233XX
 > 1X890XXX
 
 Store these scratch codes somewhere safe &#8211; Do not save these on the same local device, in case of lose or theft. I will save these to my LastPass Vault.
@@ -74,14 +74,14 @@ Okay, lets get back to the nuts n bolts of the MFA configuration for SSH on the 
 
 > htinoco@pi-hole:~$ sudo nano /etc/ssh/sshd_config
 >
-> \# Change to yes to enable challenge-response passwords (beware issues with  
-> \# some PAM modules and threads)  
+> \# Change to yes to enable challenge-response passwords (beware issues with
+> \# some PAM modules and threads)
 > ChallengeResponseAuthentication yes      # Change this default from no to yes!
 >
-> \# Kerberos options  
-> #KerberosAuthentication no  
-> #KerberosOrLocalPasswd yes  
-> #KerberosTicketCleanup yes  
+> \# Kerberos options
+> #KerberosAuthentication no
+> #KerberosOrLocalPasswd yes
+> #KerberosTicketCleanup yes
 > #KerberosGetAFSToken no
 
 Next, simply restart the SSH service:
@@ -100,8 +100,8 @@ Now lets edit the PAM file &#8211; The <span class="ILfuVd"><span class="e24Kjd"
 
 That&#8217;s it! You can test this feature by simply running &#8216;ssh localhost&#8217; and you should see the following after authenticating with your password:
 
-> htinoco@pi-hole:~$ ssh localhost  
-> Password:  
+> htinoco@pi-hole:~$ ssh localhost
+> Password:
 > Verification code:                                #<<<<< Very COOL!
 
 Now, as I said, if you&#8217;re like me and have hundreds of sessions saved on your SecureCRT application &#8211; here is what you&#8217;ll need to do to ensure a smooth login with MFA:

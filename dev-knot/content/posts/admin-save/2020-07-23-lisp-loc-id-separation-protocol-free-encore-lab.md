@@ -50,9 +50,9 @@ The RLOC is the interface address configured on Gi1 on the Avifi-A router. Altho
 
 Here is an example configuration snippet of the database-mapping command to include the EID and the RLOC.
 
-> **R2-Avifi-A#show run | sec lisp**  
-> router lisp  
-> database-mapping 192.168.1.0/24 10.0.1.2 priority 1 weight 100  
+> **R2-Avifi-A#show run | sec lisp**
+> router lisp
+> database-mapping 192.168.1.0/24 10.0.1.2 priority 1 weight 100
 > ipv4 itr map-resolver 10.0.1.1
 
 The Lab has since expanded to add CPE&#8217;s with traditional OSPF routing between the xTR and the CPE. There is redistribution of connected subnets (loopbacks) and the xTR has an updated database to include this loopback.
