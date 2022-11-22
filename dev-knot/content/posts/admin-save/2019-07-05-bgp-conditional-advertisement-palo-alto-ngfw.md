@@ -73,95 +73,95 @@ Below, is the &#8220;Advertise Filters&#8221; tab. Here you will input the Publi
 
 This out put displays the condition being SUPPRESSED, since the prefix 192.168.100.1/32 is PRESENT in the routing table.
 
-> <span style="color:#ff0000;">admin@PA-VM> show routing protocol bgp loc-rib</span>  
-> VIRTUAL ROUTER: default (id 1)  
-> ==========  
-> Prefix Nexthop Peer Weight LocPrf Org MED flap AS-Path  
-> 0.0.0.0/0 172.16.65.0 WAN-ISP-1 0 100 i/c 0 0 64511  
+> <span style="color:#ff0000;">admin@PA-VM> show routing protocol bgp loc-rib</span>
+> VIRTUAL ROUTER: default (id 1)
+> ==========
+> Prefix Nexthop Peer Weight LocPrf Org MED flap AS-Path
+> 0.0.0.0/0 172.16.65.0 WAN-ISP-1 0 100 i/c 0 0 64511
 > **<span style="color:#ff0000;">\*192.168.100.1/32 172.16.65.0 WAN-ISP-1 0 100 i/c 0 0 64511</span>** > *0.0.0.0/0 172.16.64.0 WAN-ISP-2 0 200 i/c 0 0 64496
-> *192.168.1.0/24 192.168.1.2 Core-Router 0 100 igp 0 0  
+> *192.168.1.0/24 192.168.1.2 Core-Router 0 100 igp 0 0
 > \*2.2.2.2/32 Local 0 100 i/c 0 0
 >
 > total routes shown: 5
 >
-> **<span style="color:#ff0000;">admin@PA-VM> show routing protocol bgp policy cond-adv</span>**  
-> VIRTUAL ROUTER: default (id 1)  
-> ==========  
-> Peer/Group: WAN-ISP-2  
-> **<span style="color:#ff0000;">Suppress condition met: yes</span>**  
-> Suppress condition (Non-exist filter):  
-> name: Loop-to-monitor  
-> AFI: bgpAfiIpv4  
-> SAFI: unicast  
-> Destination: 192.168.100.1  
-> hit count: 17  
-> Route filter (Advertise filter):  
-> name: Routes-To-Advertise  
-> AFI: bgpAfiIpv4  
-> SAFI: unicast  
-> Destination: 2.2.2.2  
-> hit count: 3  
-> &#8212;&#8212;&#8212;-  
-> Peer/Group: ISP-2  
-> Suppress condition met: yes  
-> Suppress condition (Non-exist filter):  
-> name: Loop-to-monitor  
-> AFI: bgpAfiIpv4  
-> SAFI: unicast  
-> Destination: 192.168.100.1  
-> hit count: 17  
-> Route filter (Advertise filter):  
-> name: Routes-To-Advertise  
-> AFI: bgpAfiIpv4  
-> SAFI: unicast  
-> Destination: 2.2.2.2  
-> hit count: 3  
+> **<span style="color:#ff0000;">admin@PA-VM> show routing protocol bgp policy cond-adv</span>**
+> VIRTUAL ROUTER: default (id 1)
+> ==========
+> Peer/Group: WAN-ISP-2
+> **<span style="color:#ff0000;">Suppress condition met: yes</span>**
+> Suppress condition (Non-exist filter):
+> name: Loop-to-monitor
+> AFI: bgpAfiIpv4
+> SAFI: unicast
+> Destination: 192.168.100.1
+> hit count: 17
+> Route filter (Advertise filter):
+> name: Routes-To-Advertise
+> AFI: bgpAfiIpv4
+> SAFI: unicast
+> Destination: 2.2.2.2
+> hit count: 3
+> &#8212;&#8212;&#8212;-
+> Peer/Group: ISP-2
+> Suppress condition met: yes
+> Suppress condition (Non-exist filter):
+> name: Loop-to-monitor
+> AFI: bgpAfiIpv4
+> SAFI: unicast
+> Destination: 192.168.100.1
+> hit count: 17
+> Route filter (Advertise filter):
+> name: Routes-To-Advertise
+> AFI: bgpAfiIpv4
+> SAFI: unicast
+> Destination: 2.2.2.2
+> hit count: 3
 > &#8212;&#8212;&#8212;-
 
 Now, I will shut down the Peering Session from the BGP edge router at ISP-1. This will pull the prefix 192.168.100.1/32 from the Routing Table on the Palo Alto and will meet the condition, therefore advertising the public server IP out the Secondary-Peering session, ISP-2.
 
-> **<span style="color:#ff0000;">admin@PA-VM> show routing protocol bgp loc-rib</span>**  
-> VIRTUAL ROUTER: default (id 1)  
-> ==========  
-> Prefix Nexthop Peer Weight LocPrf Org MED flap AS-Path  
-> *0.0.0.0/0 172.16.64.0 WAN-ISP-2 0 200 i/c 0 0 64496  
-> *192.168.1.0/24 192.168.1.2 Core-Router 0 100 igp 0 0  
+> **<span style="color:#ff0000;">admin@PA-VM> show routing protocol bgp loc-rib</span>**
+> VIRTUAL ROUTER: default (id 1)
+> ==========
+> Prefix Nexthop Peer Weight LocPrf Org MED flap AS-Path
+> *0.0.0.0/0 172.16.64.0 WAN-ISP-2 0 200 i/c 0 0 64496
+> *192.168.1.0/24 192.168.1.2 Core-Router 0 100 igp 0 0
 > \*2.2.2.2/32 Local 0 100 i/c 0 0
 >
 > total routes shown: 3
 >
-> admin@PA-VM> show routing protocol bgp policy cond-adv  
-> VIRTUAL ROUTER: default (id 1)  
-> ==========  
-> Peer/Group: WAN-ISP-2  
-> **<span style="color:#ff0000;">Suppress condition met: no</span>**  
-> Suppress condition (Non-exist filter):  
-> name: Loop-to-monitor  
-> AFI: bgpAfiIpv4  
-> SAFI: unicast  
-> Destination: 192.168.100.1  
-> hit count: 19  
-> Route filter (Advertise filter):  
-> name: Routes-To-Advertise  
-> AFI: bgpAfiIpv4  
-> SAFI: unicast  
-> Destination: 2.2.2.2  
-> hit count: 3  
-> &#8212;&#8212;&#8212;-  
-> Peer/Group: ISP-2  
-> Suppress condition met: no  
-> Suppress condition (Non-exist filter):  
-> name: Loop-to-monitor  
-> AFI: bgpAfiIpv4  
-> SAFI: unicast  
-> Destination: 192.168.100.1  
-> hit count: 19  
-> Route filter (Advertise filter):  
-> **<span style="color:#ff0000;">name: Routes-To-Advertise</span>**  
-> **<span style="color:#ff0000;">AFI: bgpAfiIpv4</span>**  
-> **<span style="color:#ff0000;">SAFI: unicast</span>**  
-> **<span style="color:#ff0000;">Destination: 2.2.2.2</span>**  
-> hit count: 3  
+> admin@PA-VM> show routing protocol bgp policy cond-adv
+> VIRTUAL ROUTER: default (id 1)
+> ==========
+> Peer/Group: WAN-ISP-2
+> **<span style="color:#ff0000;">Suppress condition met: no</span>**
+> Suppress condition (Non-exist filter):
+> name: Loop-to-monitor
+> AFI: bgpAfiIpv4
+> SAFI: unicast
+> Destination: 192.168.100.1
+> hit count: 19
+> Route filter (Advertise filter):
+> name: Routes-To-Advertise
+> AFI: bgpAfiIpv4
+> SAFI: unicast
+> Destination: 2.2.2.2
+> hit count: 3
+> &#8212;&#8212;&#8212;-
+> Peer/Group: ISP-2
+> Suppress condition met: no
+> Suppress condition (Non-exist filter):
+> name: Loop-to-monitor
+> AFI: bgpAfiIpv4
+> SAFI: unicast
+> Destination: 192.168.100.1
+> hit count: 19
+> Route filter (Advertise filter):
+> **<span style="color:#ff0000;">name: Routes-To-Advertise</span>**
+> **<span style="color:#ff0000;">AFI: bgpAfiIpv4</span>**
+> **<span style="color:#ff0000;">SAFI: unicast</span>**
+> **<span style="color:#ff0000;">Destination: 2.2.2.2</span>**
+> hit count: 3
 > &#8212;&#8212;&#8212;-
 
 Keep in mind that BGP offers many knobs to traffic-engineer IN-bound and OUT-bound traffic. Utilizing MED is a way to steer traffic inbound, although &#8211; this will work only when dual-homing to the same ISP AND must be enabled/allowed by the upstream ISP.

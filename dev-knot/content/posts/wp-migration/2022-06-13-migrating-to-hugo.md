@@ -38,8 +38,7 @@ Welcome to my new blog! I recently took the time to migrate away from WordPress 
 
 If you want to skip the blog and just check out the project [Show me the code!](https://github.com/h4ndzdatm0ld/dev-knot-blog)
 
-{{< admonition tip >}}
-{{< version 0.2.10 >}}
+{{< admonition tip >}} {{< version 0.2.10 >}}
 
 ### Get Caught Up
 
@@ -194,8 +193,7 @@ services:
 
 The above shows the `docker-compose.yml` file and the necessary environment variables that I used. For the Terraform backend, there is no need to use a `.terraformrc` file anymore for authentication to cloud service. Simply provide the auth token with the cloud service name and replace any '.' with '\_'.
 
-Example
-`app.terraform.io == app_terraform_io`
+Example `app.terraform.io == app_terraform_io`
 
 The value of this variable is the actual Token. This will satisfy the requirements to initialize terraform with the cloud backend below
 
@@ -214,10 +212,7 @@ terraform {
 
 This block will create the Amplify application under the correct region. The `build_spec` is a big part of the CI/CD process, as it defines the stages of the builds. For my application, the steps are very simple. Create the static site in a production manner from the git repository. Pay attention to the variables I have defined. This is specifying the Git Repository to use and the Git Token.
 
-{{< admonition tip >}}
-{{< version 0.2.10 >}}
-The `LIVE_UPDATE` resource allows to upgrade `hugo` to the latest available release at build time.
-{{< /admonition >}}
+{{< admonition tip >}} {{< version 0.2.10 >}} The `LIVE_UPDATE` resource allows to upgrade `hugo` to the latest available release at build time. {{< /admonition >}}
 
 ```bash
 resource "aws_amplify_app" "dev-knot-app" {
