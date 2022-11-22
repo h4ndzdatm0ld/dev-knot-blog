@@ -286,8 +286,4 @@ That's it! you can see that the webhook was triggered at the correct endpoint an
 
 Orchestrating the entire lifecycle of this simple demo project was quite interesting as both of these two technologies were new to me. The deployment via terraform was fun to figure out as I didn't understand the IAM role association to access ECR until I had to dig deep into why the Terraform Module gave me a not so helpful error. Additionally, ensuring that you omit the port number on the public FQDN was a good gotcha, as well when sending the webhook to trigger the rulebook/playbook. I hope you enjoyed this post!
 
-- Hugo
-
-```
-
-```
+Hugo
