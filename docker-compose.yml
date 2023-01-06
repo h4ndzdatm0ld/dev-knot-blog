@@ -3,7 +3,7 @@ version: "3.8"
 services:
   terraform:
     working_dir: "/usr/src/app"
-    image: "hashicorp/terraform:latest"
+    image: "hashicorp/terraform:1.3.5"
     volumes:
       - "./terraform/:/usr/src/app/"
     environment:
