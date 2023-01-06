@@ -3,7 +3,7 @@ title: "Nautobot Jobs - Cookiecutter & Cookiecutter Testing"
 date: 2023-01-04T12:27:53-10:00
 draft: false
 weight: 1
-featuredImage: "/images/2023-01/nautobot-small.png"
+featuredImage: "/images/2023-01/nautobot-logo.png"
 featuredImagePreview: "/images/2023-01/nautobot-small-logo.png"
 categories:
   - Nautobot
