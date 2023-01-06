@@ -54,7 +54,7 @@ resource "aws_amplify_app" "dev-knot-app" {
         {
           pkg     = "hugo"
           type    = "hugo"
-          version = "latest"
+          version = "0.108.0"
         },
       ]
     )
