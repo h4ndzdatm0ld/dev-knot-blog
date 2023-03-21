@@ -3,7 +3,6 @@ title: "Nornir Netconf 2.0.0 Release"
 date: 2023-03-20T00:13:23Z
 draft: false
 weight: 1
-featuredImage: "/images/2023-03/nornir-logo-small.png"
 featuredImagePreview: "/images/2023-03/nornir-logo.png"
 categories:
   - NetworkAutomation
