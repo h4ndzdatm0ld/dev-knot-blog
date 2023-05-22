@@ -2,6 +2,6 @@
 	path = dev-knot/themes/LoveIt
 	url = https://github.com/dillonzq/LoveIt.git
 
-[submodule "dev-knot/amplify-email-recipes"]
-	path = dev-knot/amplify-email-recipes
+[submodule "amplify-email-recipes"]
+	path = amplify-email-recipes
 	url = https://github.com/mtliendo/amplify-email-recipes.git
