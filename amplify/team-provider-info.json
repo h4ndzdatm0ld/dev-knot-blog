@@ -16,7 +16,7 @@
         "contactformuploader": {
           "sesEmail": "htinoco@dev-knot.com",
           "deploymentBucketName": "amplify-devknotportal-dev-42444-deployment",
-          "s3Key": "amplify-builds/contactformuploader-6968484776764f636851-build.zip"
+          "s3Key": "amplify-builds/contactformuploader-324c504c304d5079416e-build.zip"
         }
       },
       "api": {
