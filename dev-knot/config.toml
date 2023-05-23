@@ -49,6 +49,14 @@ title = "Dev-Knot Blog"
     name = "Categories"
     url = "/categories/"
     title = "Categories"
+  [[menu.main]]
+    weight = 3
+    identifier = "contact"
+    pre = ""
+    post = ""
+    name = "Contact"
+    url = "https://main.d176vifuq4cq11.amplifyapp.com"
+    title = "Categories"
 
 [params]
   # site default theme ["auto", "light", "dark"]
