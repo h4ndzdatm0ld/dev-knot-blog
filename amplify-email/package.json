@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "export SET NODE_OPTIONS=--openssl-legacy-provider && next dev",
-    "build": "export SET NODE_OPTIONS=--openssl-legacy-provider && next build && next export",
+    "build": "next build && next export",
     "start": "next start",
     "lint": "next lint"
   },
@@ -15,7 +15,7 @@
     "@emotion/styled": "^11.3.0",
     "aws-amplify": "^5.2.2",
     "framer-motion": "^4.1.17",
-    "next": "^13.4.3",
+    "next": "^11.1.4",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
