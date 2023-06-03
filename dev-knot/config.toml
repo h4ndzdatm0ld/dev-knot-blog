@@ -12,7 +12,7 @@ title = "Dev-Knot Blog"
 # Author config
 [author]
   name = "Hugo Tinoco"
-  email = "hugotinoco@icloud.com"
+  email = "htinoco@dev-knot.com"
   link = "https://www.linkedin.com/in/hugo-tinoco/"
 
 [module]
@@ -88,7 +88,7 @@ title = "Dev-Knot Blog"
   [params.header]
     # desktop header mode ["fixed", "normal", "auto"]
     # 桌面端导航栏模式 ["fixed", "normal", "auto"]
-    desktopMode = "fixed"
+    desktopMode = "auto"
     # mobile header mode ["fixed", "normal", "auto"]
     # 移动端导航栏模式 ["fixed", "normal", "auto"]
     mobileMode = "auto"
