@@ -9,12 +9,13 @@ categories:
   - DevOps
   - Cloud
 tags:
-  - aws
+  - AWS
   - DevOps
   - Cloud
-  - cdk
-  - typescript
-  - iac
+  - CDK
+  - Typescript
+  - Iac
+  - Nautobot
 hiddenFromHomePage: false
 hiddenFromSearch: false
 twemoji: false
@@ -29,24 +30,28 @@ code:
   copy: true
   maxShownLines: 50
 ---
-I've been recently challenged at work with understanding a lot of packages that are deploying IaC in Typescript with CDK. I figured it was time to deep dive CDK and learn Typescript in the process. I'm a huge fan of Terraform, so I figured this transition shouldn't be too painful. It wasn't and in fact I really enjoy CDK. For this post, I'm going to walk through how I  deployed Nautobot to AWS ECS Fargate with CDK. The deployment will create a `dev` and `prod` instance and leverage native AWS resources such as RDS, ECR, ECS, Fargate, Secrets Manager, and VPC and the application will be behind an ALB pointed towards an NGINX container acting as a reverse proxy. Additionally, I thought it would be cool to deploy the necessary IAM policies/roles to leverage AWS Session Manager for ECS Fargate. This allows you to connect to the containers inside an ECS Cluster without having to manage SSH keys or bastion hosts. I'm not going to go into detail on how to use AWS Session Manager, but if you want to learn more, check out the [AWS Docs](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html).
+Recently at work, I've been challenged with understanding numerous packages that deploy Infrastructure as Code (IaC) in Typescript using the Cloud Development Kit (CDK). Recognizing this, I decided it was time to delve into CDK and concurrently learn Typescript. Being an a fan of Terraform, I presumed the transition would not be too daunting, and indeed, it wasn't. In this post, I will outline how I deployed Nautobot to Amazon Web Services (AWS) Elastic Container Service (ECS) Fargate using CDK.
 
-The simplification of Docker Images through CDK was actually really cool. Most likely, you'll have some sort of pipeline setup to build new images in a different repository, etc. but for this lab, I leveraged the `DockerImageAsset` resource and built and pushed images to ECR with CDK directly.
+The deployment process creates a `development` and `production` instances, leveraging native AWS resources such as Relational Database Service (RDS), Elastic Container Registry (ECR), ECS, Fargate, Secrets Manager, and several Virtual Private Cloud (VPC) components. The application sits behind an Application Load Balancer (ALB), with a target towards an NGINX container that acts as a reverse proxy.
 
-I'm going to assume you have a basic understanding of CDK. If not, I recommend checking out the [CDK Workshop](https://cdkworkshop.com/). Nautobot is an open-source network automation platform. It is built on top of Django and Python. I'm not going to go into detail on Nautobot, but if you want to learn more, check out the [Nautobot Docs](https://nautobot.readthedocs.io/en/latest/).
+Additionally, I thought it would be interesting to deploy necessary IAM Roles and Service Policies to use AWS Session Manager for ECS Fargate. This allows you to connect to the containers within an ECS Cluster without the need to manage Secure Shell (SSH) keys or bastion hosts. Although I won't go into too much detail about how to use AWS Session Manager in this post, you can learn more by checking out the [AWS Docs](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html).
 
-I won't bore you with too many details over all, but some high level information on what I found most interesting and some explanation of certain approaches in the code. Additionally, the `README.md` has more content in the repo itself. This post will serve as an entrypoint into the repository code.
+I found the simplification of Docker Images through CDK quite impressive. While it's common to have a pipeline set up to build new images in a different repository, for this project I utilized the [DockerImageAsset](https://docs.aws.amazon.com/cdk/api/v1/docs/@aws-cdk_aws-ecr-assets.DockerImageAsset.html) construct and directly built and pushed images to ECR using CDK.
+
+For this post, I'm assuming you have a basic understanding of CDK. If not, I highly recommend checking out the CDK Workshop. Also, Nautobot is an open-source network automation platform built on Django and Python. Again, I won't delve into the specifics of Nautobot, but for those interested, the [Nautobot](https://networktocode.com/nautobot/) Docs can provide further insight.
+
+I don't intend to overwhelm you with an abundance of details, but will provide high-level information on aspects I found most intriguing, and explain certain approaches in the code. For more content, refer to the [README.md](https://github.com/h4ndzdatm0ld/cdk-nautobot/blob/develop/README.md) in the repository itself. This post will serve as an entry point into the repository code.
 
 ### TLDR
 
 Deploy a multi-environment (dev/prod) Nautobot instance to AWS ECS Fargate with CDK. [Github Code](https://github.com/h4ndzdatm0ld/cdk-nautobot)
 
-1. Clone the [CDK-Nautobot](https://github.com/h4ndzdatm0ld/cdk-nautobot) repo.
-2. Edit the `lib/secrets/env-example` and `lib/nautobot-app/.env-example` files and rename them to .env
-3. Manipulate the `lib/nautobot-app/nautobot_config.py` file to your liking.
-4. Bootstrap the CDK application with `cdk bootstrap`.
-5. Run the `deploy.sh` script with the `--stage` option to deploy to `dev` or `prod` environment.
-6. ~ 20 minutes later and you have a dev and prod Nautobot instance running in AWS.
+1. Clone the [CDK-Nautobot](https://github.com/h4ndzdatm0ld/cdk-nautobot) repository.
+2. Edit the `lib/secrets/env-example` and `lib/nautobot-app/.env-example` files and rename them to .env.
+3. Customize the `lib/nautobot-app/nautobot_config.py` file as per your requirements.
+4. Bootstrap the CDK application using `cdk bootstrap`.
+5. Execute the `deploy.sh` script with the `--stage` option to deploy to either `dev` or `prod` environment.
+6. Approximately 20 minutes later, you will have a dev and prod Nautobot instance running in AWS.
 
 ## Stacks
 
@@ -93,11 +98,12 @@ I decided to break down my stacks as followed:
 
 4 directories, 14 files
 ```
+
 ## Bootstrapping Multi-Environments
 
 A great feature of CDK is the bootstrapping process will create a CloudFormation stack that contains resources needed for deployment. This includes an S3 bucket to store templates and assets, and an IAM role that grants the AWS CDK permission to make calls to AWS CloudFormation, Amazon S3, and Amazon EC2 on your behalf. I kind of thought about this as configuring a S3 Backend for Terraform.
 
-The snippet below is from [bin/cdk-nautobot.ts](https://github.com/h4ndzdatm0ld/cdk-nautobot/blob/develop/bin/cdk-nautobot.ts) file. This calls the `app.synth()` function which will synthesize the CDK app into a CloudFormation template and deploy it to the AWS account and region specified in the `cdk.json` file. As you can see below, there is a simple `for` loop that will iterate over each environment and deploy the stacks. The application will detect multiple accounts in the form of [Environments](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). In my case, I'm only using 1 AWS account, but you can easily add more accounts and regions to the `Environments` object.
+The snippet below is from [bin/cdk-nautobot.ts](https://github.com/h4ndzdatm0ld/cdk-nautobot/blob/develop/bin/cdk-nautobot.ts) file. This calls the `app.synth()` function which will synthesize the CDK app into a CloudFormation template and deploy it to the AWS account and region specified in the `constants` file. As you can see below, there is a simple `for` loop that will iterate over each environment and deploy the stacks. The application will detect multiple accounts in the form of [Environments](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). In my case, I'm only using 1 AWS account, but you can easily add more accounts and regions to the `Environments` object.
 
 It's important to note, that in my case I did not share any resources from one environment with another.
 
@@ -132,7 +138,7 @@ const getEnvironments = async (): Promise<Environments> => {
 
 ## Docker Builds and Secrets
 
-I'm not entirely sure what best practice is here with CDK, but I powered my way to accomplish this approach and I found it pretty helpful. I used the `dotenv` library to parse `.env` file and create `Secrets` into AWS Secrets Manager. I then used the `DockerImageAsset` resource to build and push the Docker images to ECR. As each retrieval API cost money, it was important to ensure only sensitive information is stored in secrets manager.
+I'm not entirely certain about the best practices for using CDK, but I found my approach effective and helpful. I utilized the `dotenv` library to parse the `.env` file and create Secrets in AWS Secrets Manager. Subsequently, I used the `DockerImageAsset` resource to build and push Docker images to the Elastic Container Registry (ECR). Since each retrieval from the API incurs a cost, it's crucial to ensure that only sensitive information is stored in the Secrets Manager.
 
 > CDK provides the DockerImageAsset class to make it easy to build and push Docker images to Amazon ECR. The DockerImageAsset class is a subclass of the Asset class, which is used to represent local files and directories that are needed for a CDK app. The Asset class is used to upload the local files to an S3 bucket, and then the DockerImageAsset class is used to build and push the Docker image to Amazon ECR.
 
@@ -147,7 +153,7 @@ const asset = new DockerImageAsset(this, 'MyBuildImage', {
 })
 ```
 
-A snippet from the Secrets Stack:
+The pattern I developed to load secrets, which are essential for the proper functioning of the Nautobot application, involves using a common .env file and pushing these variables solely to the Secrets Manager. Here's a snippet from the Secrets Stack:
 
 ```typescript
 // Path to .env file
@@ -204,7 +210,7 @@ const nautobotWorkerContainer = nautobotWorkerTaskDefinition.addContainer("nauto
   ...
 ```
 
-The actual sharing of attributes is done in the main application file `bin/cdk-nautobot.ts`
+The actual sharing of attributes is done in the main application file `bin/cdk-nautobot.ts`. Here is a small snippet showing how `const` variables get created and for each stack, the `const` variables are passed into the constructor where applicable.
 
 ```typescript
 for (const [stage, env] of Object.entries(stages)) {
@@ -217,28 +223,7 @@ for (const [stage, env] of Object.entries(stages)) {
   const dbStackProps = { env: env };
   const nautobotDbStack = new NautobotDbStack(
     app, `${stackIdPrefix}NautobotDbStack`, nautobotVpcStack, dbStackProps);
-
-  const secretsStackProps = { env: env };
-  const nautobotSecretsStack = new NautobotSecretsStack(
-    app, `${stackIdPrefix}NautobotSecretsStack`, secretsStackProps);
-
-  const dockerImageStackProps = { env: env };
-  const nautobotDockerImageStack = new NautobotDockerImageStack(
-    app, `${stackIdPrefix}NautobotDockerImageStack`, dockerImageStackProps);
-
-  const nginxDockerImageStack = new NginxDockerImageStack(
-    app, `${stackIdPrefix}NginxDockerImageStack`, dockerImageStackProps);
-
-  new NautobotFargateEcsStack(
-    app,
-    `${stackIdPrefix}NautobotFargateEcsStack`,
-    stage,
-    nautobotDockerImageStack,
-    nginxDockerImageStack,
-    nautobotSecretsStack,
-    nautobotVpcStack,
-    nautobotDbStack,
-    { env: env },
+  ...
   );
 }
 
@@ -272,9 +257,7 @@ this.postgresInstance = new rds.DatabaseInstance(this, 'NautobotPostgres', {
 });
 ```
 
-The postgress alongside the DB password and Redis Cluster were exported as part of this class and passed into environment variables in the `NautobotFargateEcsStack` as shown below.
-
-From the DB Stack:
+From the DB Stack, we create the `postgresInstance` and `redisCluster` objects. Additionally, we create the `nautobotDbPassword` as a `Secret` object.
 
 ```typescript
 export class NautobotDbStack extends Stack {
@@ -283,7 +266,7 @@ export class NautobotDbStack extends Stack {
   public readonly nautobotDbPassword: Secret;
 ```
 
-ECS Fargate Stack, showing constructor, the environment variables, and one of the containers definitions accepting `environment`
+Below, the `NautobotFargateEcsStack` accepts these values as parameters in the constructor. This allows the `NautobotFargateEcsStack` to access the `postgresInstance` and `redisCluster` objects. The great thing about typescript is.. type hints. You define the parameter and the type of the parameter. This makes it easy to know what you're passing into the constructor.
 
 ```typescript
 export class NautobotFargateEcsStack extends Stack {
@@ -306,7 +289,9 @@ export class NautobotFargateEcsStack extends Stack {
       ...
 ```
 
-However, because the `nauotbotDbPassword` was a `Secret` for AWS Secrets Manager, the approach was slightly different. Container Definitions let you pass in secrets directly.
+However, because the `nautobotDbPassword` was a `Secret` object for AWS Secrets Manager, the approach was slightly different. Container Definitions let you pass in secrets directly.
+
+> A great article on [Passing sensitive data to a container](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html)
 
 ```typescript
 // update secrets w/ DB PW
@@ -325,18 +310,20 @@ secretsStack.secrets["NAUTOBOT_DB_PASSWORD"] = ecs.Secret.fromSecretsManager(
       ...
 ```
 
-This kept this as simple as possible.
+This kept this as simple as possible to deploy the DB in a separate stack and use these values for our application.
 
 ## Fargate Service - Nginx Reverse Proxy behind ALB
 
-This part threw me for a loop for some time. Overall, the concept is that the Nautobot container is serving a uWSGI server as seen in the Official docker image entry point
+In our setup, the Nautobot container runs a uWSGI server, following the model of the official Docker image entry point. All incoming requests are handled by the Application Load Balancer (ALB) that routes them to the NGINX container. The NGINX container then forwards these requests to the uWSGI server on port 8080 of the Nautobot container. In essence, the ALB directs traffic towards the NGINX container which acts as a proxy to the uWSGI server on the Nautobot container. This is why the ALB Listener and Targets point to port 80 on the NGINX container.
+
+Nautobot container entry point
 
 ```bash
 # Run Nautobot
 CMD ["nautobot-server", "start", "--ini", "/opt/nautobot/uwsgi.ini"]
 ```
 
-So, the ALB needs to point to the Nginx container, which will then proxy the request to the uWSGI server on the Nautobot container. This means that the ALB Listener and Targets will point to port 80 on the Nginx container.
+ALB configuration which has a HTTP listener on port 80 and forwards to point 80.
 
 ```typescript
 const listener = alb.addListener(`${stage}Listener`, {
@@ -362,7 +349,7 @@ listener.addTargets(`${stage}NautobotAppService`, {
 });
 ```
 
-The NGINX container acts as a side-car to the main Nautobot app container within the same FargateService's Task Definition. This means I had to specify the actual definition of the NGINX container within the `loadBalancerTarget`. I had behavior where it was choosing to use the Nautobot container as the target on port 8080, which was not what I wanted. I wanted the NGINX container to be the target. This was one of the main reasons that I struggled. I went into a rabbit hole configuring [Cluster Namespaces](https://docs.aws.amazon.com/cloud-map/latest/dg/working-with-namespaces.html) and [CloudMap](https://aws.amazon.com/cloud-map/), but that was not necessary. I simply needed to specify the container name and port in the `loadBalancerTarget` as shown above and ensure the Nautobot container was serving uWSGI on port 8080.
+In our setup, the NGINX container operates as a side-car to the primary Nautobot app container within the same Fargate Service's Task Definition. This required me to define the NGINX container within the loadBalancerTarget. I faced an issue where it was erroneously selecting the Nautobot container on port 8080 as the target, instead of the intended NGINX container. After venturing into the complexities of configuring [Cluster Namespaces](https://docs.aws.amazon.com/cloud-map/latest/dg/working-with-namespaces.html) and [CloudMap](https://aws.amazon.com/cloud-map/),, I realized it was unnecessary. All that was required was to specify the container name and port in the loadBalancerTarget and ensure the Nautobot container was serving uWSGI on port 8080.
 
 ```typescript
 // Nautobot App Task Definition and Service
@@ -588,7 +575,6 @@ nautobot@ip-10-0-151-118:~$
 ## Summary
 
 This was a fun little project for me to work on here and there as I learn TypeScript and CDK. The CDK documentation is a great resource to find the correct attributes which I found myself looking up constantly. Overall, I really appreciate how easy it is to have a multi-environment application without thinking too hard about the layout of the project. Additionally, unit testing the code can be very simple, in the sense of generating the Template and evaluating the output CloudFormation template you expect. I do not have any examples in this project, but the patterns I found were very simple and easy to understand.
-
 
 ### Resources
 
