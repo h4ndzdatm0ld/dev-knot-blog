@@ -150,11 +150,12 @@ resource "aws_route53_record" "blog" {
   type    = "A"
 
   alias {
-    name                   = var.blog_domain
-    zone_id                = aws_route53_zone.primary.zone_id
+    name                   = aws_amplify_domain_association.dev-knot.domain_name
+    zone_id                = aws_amplify_domain_association.dev-knot.hosted_zone_id
     evaluate_target_health = true
   }
 }
+
 
 resource "aws_acm_certificate_validation" "blog_cert" {
   certificate_arn         = aws_acm_certificate.blog.arn
