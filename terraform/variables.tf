@@ -17,6 +17,12 @@ variable "blog_name" {
   type    = string
 }
 
+variable "hugo_version" {
+  description = "The version of Hugo to use"
+  type        = string
+  default     = "0.112.7"  // replace with the version you want
+}
+
 variable "gh_access_token" {
   type = string
 }
