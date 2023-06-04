@@ -28,10 +28,10 @@ resource "aws_amplify_app" "dev-knot-app" {
       phases:
         preBuild:
           commands:
-            - wget https://github.com/gohugoio/hugo/releases/download/v${VERSION_HUGO}/hugo_extended_${VERSION_HUGO}_Linux-64bit.tar.gz
-            - tar --overwrite -xf hugo_extended_${VERSION_HUGO}_Linux-64bit.tar.gz hugo
+            - wget https://github.com/gohugoio/hugo/releases/download/v${var.hugo_version}/hugo_extended_${var.hugo_version}_Linux-64bit.tar.gz
+            - tar --overwrite -xf hugo_extended_${var.hugo_version}_Linux-64bit.tar.gz hugo
             - mv hugo /usr/bin/hugo
-            - rm -rf hugo_extended_${VERSION_HUGO}_Linux-64bit.tar.gz
+            - rm -rf hugo_extended_${var.hugo_version}_Linux-64bit.tar.gz
             - hugo version
         build:
           commands:
