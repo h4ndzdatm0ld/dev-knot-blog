@@ -14,7 +14,7 @@ export const AppHeader = () => {
         </Text>
       </Heading>
       <Text color={'gray.500'}>
-        Dev-Knot can help you with your next project. Let us start a conversation and figure out how we can help you.
+        Dev-Knot can help with common Network Automation efforts for short or long term projects.
       </Text>
       <ServicesList />
     </>

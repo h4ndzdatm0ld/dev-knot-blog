@@ -26,6 +26,13 @@ resource "aws_amplify_app" "dev-knot-app" {
     version: 0.1
     frontend:
       phases:
+        preBuild:
+          commands:
+            - wget https://github.com/gohugoio/hugo/releases/download/v${VERSION_HUGO}/hugo_extended_${VERSION_HUGO}_Linux-64bit.tar.gz
+            - tar --overwrite -xf hugo_extended_${VERSION_HUGO}_Linux-64bit.tar.gz hugo
+            - mv hugo /usr/bin/hugo
+            - rm -rf hugo_extended_${VERSION_HUGO}_Linux-64bit.tar.gz
+            - hugo version
         build:
           commands:
             - "cd dev-knot && hugo --minify --config ./config.toml"
@@ -49,15 +56,7 @@ resource "aws_amplify_app" "dev-knot-app" {
   # }
   environment_variables = {
     ENV = "dev-knot"
-    "_LIVE_UPDATES" = jsonencode(
-      [
-        {
-          pkg     = "hugo"
-          type    = "hugo"
-          version = "0.108.0"
-        },
-      ]
-    )
+    VERSION_HUGO = "0.112.7"
   }
 }
 # ADD Branch setup to new AWS Amplify APP Resource

@@ -15,13 +15,7 @@ jobs:
           submodules: "recursive"
 
       - name: "Setup Hugo"
-        uses: "peaceiris/actions-hugo@v2"
-        with:
-          hugo-version: "latest"
-          extended: true
-
-      - name: "Build"
-        run: "cd dev-knot && hugo --minify --config ./config.toml"
+        run: "docker-compose build blog"
 
       - uses: "docker/login-action@v1"
         with:
