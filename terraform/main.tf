@@ -143,19 +143,6 @@ resource "aws_route53_record" "blog_cert" {
   zone_id         = aws_route53_zone.primary.zone_id
 }
 
-resource "aws_route53_record" "blog" {
-  zone_id = aws_route53_zone.primary.zone_id
-  name    = var.blog_name
-  type    = "A"
-
-  alias {
-    name                   = aws_amplify_app.dev-knot-app.default_domain
-    zone_id                = aws_route53_zone.primary.zone_id
-    evaluate_target_health = true
-  }
-}
-
-
 resource "aws_acm_certificate_validation" "blog_cert" {
   certificate_arn         = aws_acm_certificate.blog.arn
   validation_record_fqdns = [for record in aws_route53_record.blog_cert : record.fqdn]
