@@ -56,16 +56,7 @@ resource "aws_amplify_app" "dev-knot-app" {
   # }
   environment_variables = {
     ENV = "dev-knot"
-    "_LIVE_UPDATES" = jsonencode(
-      [
-        {
-          pkg     = "hugo"
-          type    = "hugo"
-          version = "0.108.0"
-          VERSION_HUGO = "0.112.7"
-        },
-      ]
-    )
+    VERSION_HUGO = "0.112.7"
   }
 }
 # ADD Branch setup to new AWS Amplify APP Resource
