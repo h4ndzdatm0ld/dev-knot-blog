@@ -144,17 +144,17 @@ resource "aws_route53_record" "blog_cert" {
 }
 
 resource "aws_route53_record" "blog" {
-
   zone_id = aws_route53_zone.primary.zone_id
   name    = var.blog_name
   type    = "A"
 
   alias {
-    name                   = var.blog_domain
+    name                   = aws_amplify_app.dev-knot-app.default_domain
     zone_id                = aws_route53_zone.primary.zone_id
     evaluate_target_health = true
   }
 }
+
 
 resource "aws_acm_certificate_validation" "blog_cert" {
   certificate_arn         = aws_acm_certificate.blog.arn
