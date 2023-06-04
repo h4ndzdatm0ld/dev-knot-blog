@@ -49,11 +49,7 @@ resource "aws_amplify_app" "dev-knot-app" {
     status = "404"
     target = "/index.html"
   }
-  # custom_rule {
-  #   source = "https://${var.blog_domain}"
-  #   status = "302"
-  #   source = "https://www${var.blog_domain}"
-  # }
+
   environment_variables = {
     ENV = "dev-knot"
     VERSION_HUGO = "0.112.7"
