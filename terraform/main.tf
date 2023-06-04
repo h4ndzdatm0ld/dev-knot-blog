@@ -144,14 +144,13 @@ resource "aws_route53_record" "blog_cert" {
 }
 
 resource "aws_route53_record" "blog" {
-
   zone_id = aws_route53_zone.primary.zone_id
   name    = var.blog_name
   type    = "A"
 
   alias {
-    name                   = aws_amplify_domain_association.dev-knot.domain_name
-    zone_id                = aws_amplify_domain_association.dev-knot.hosted_zone_id
+    name                   = aws_amplify_app.dev-knot-app.default_domain
+    zone_id                = aws_route53_zone.primary.zone_id
     evaluate_target_health = true
   }
 }
