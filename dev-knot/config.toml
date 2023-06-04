@@ -1,7 +1,7 @@
 baseURL = "https://dev-knot.com"
 languageCode = "en-us"
 languageName = "English"
-theme = "DoIt"
+theme = "LoveIt"
 
 subtitle = "Dev-Knot Blog"
 defaultContentLanguage = "en"
