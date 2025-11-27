@@ -33,6 +33,33 @@ Content "/Users/hugotinoco/Dropbox/DevKnot/dev-knot-blog/dev-knot/content/posts/
 
 Edit away! Check in the feature branch and create a WIP pull request to get a preview of the blog content hosted on a temporary public URL. The link information will be posted into the PR comments by AWS Amplify. Once everything looks good, publish to `main`.
 
+## Publishing to Medium
+
+Blog posts can be automatically published to Medium when you push new markdown files to the `main` branch. The workflow uses [blogpub](https://github.com/protiumx/blogpub) which provides **idempotent publishing** - it only publishes new files and skips files that already existed in the previous commit.
+
+### How it works
+1. Create a new markdown file in `blog/posts/`
+2. Add frontmatter with title and tags:
+   ```markdown
+   ---
+   title: "My New Article"
+   tags: network-automation, devops
+   ---
+   ```
+3. Push to `main` branch
+4. The workflow automatically publishes only the new file to Medium
+
+### Migrating Existing Posts
+To migrate existing posts from `dev-knot/content/posts/` to Medium:
+1. Copy the post to `blog/posts/`
+2. Ensure the frontmatter has `title` and `tags`
+3. Push to `main` - only the newly added file will be published
+
+### Required Secrets
+Set up these secrets in your repository settings:
+- `MEDIUM_INTEGRATION_TOKEN` - Get from [Medium Security Settings](https://medium.com/me/settings/security) -> Integration Tokens
+- `MEDIUM_USER_ID` - Your Medium user ID (see [Medium API docs](https://github.com/Medium/medium-api-docs#31-users))
+
 ## Deployments - AWS Amplify
 
 Builds are published from `develop` and the `main` branch upon successful merge. The builds are triggered in AWS Amplify via GitHub Webhooks. The `develop` branch will publish a preview version of the site with a public DNS entry that's subject to change. This can be found inside the AWS Console. Adding a custom domain to the development branch is also possible, but not complete yet. Rules can be created by branch as well. The `main` branch will publish to `www.dev-knot.com` and my old blog domain as well, `www.admin-save.com`.

@@ -1,0 +1,29 @@
+---
+name: "Medium"
+
+on: # yamllint disable-line rule:truthy rule:comments
+  push:
+    branches:
+      - "main"
+    paths:
+      - "blog/posts/**/*.md"
+
+jobs:
+  publish:
+    name: "Publish to Medium"
+    runs-on: "ubuntu-latest"
+    permissions:
+      contents: read
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+        with:
+          fetch-depth: 2
+
+      - name: "Publish to Medium"
+        uses: "protiumx/blogpub@v0.6.0"
+        with:
+          gh_token: "${{ secrets.GITHUB_TOKEN }}"
+          articles_folder: "blog/posts"
+          medium_token: "${{ secrets.MEDIUM_INTEGRATION_TOKEN }}"
+          medium_user_id: "${{ secrets.MEDIUM_USER_ID }}"
