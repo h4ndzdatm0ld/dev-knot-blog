@@ -14,6 +14,8 @@ jobs:
   post-to-medium:
     name: "Post to Medium"
     runs-on: "ubuntu-latest"
+    permissions:
+      contents: read
     steps:
       - name: "Check Out Source"
         uses: "actions/checkout@v4"
