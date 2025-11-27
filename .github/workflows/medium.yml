@@ -8,7 +8,7 @@ on: # yamllint disable-line rule:truthy rule:comments
         description: "Markdown file to publish"
         required: true
         type: string
-        default: "dev-knot/content/posts/example/index.md"
+        default: "dev-knot/content/posts/dev-ops/nautobot-cookie.md"
 
 jobs:
   post-to-medium:
