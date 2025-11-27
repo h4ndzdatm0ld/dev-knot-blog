@@ -5,17 +5,45 @@ on: # yamllint disable-line rule:truthy rule:comments
   workflow_dispatch:
     inputs:
       file:
-        description: "Markdown file to publish"
-        required: true
+        description: "Markdown file to publish (leave empty to publish all posts)"
+        required: false
         type: string
-        default: "dev-knot/content/posts/dev-ops/nautobot-cookie.md"
+        default: ""
 
 jobs:
-  post-to-medium:
-    name: "Post to Medium"
+  discover-posts:
+    name: "Discover Posts"
     runs-on: "ubuntu-latest"
     permissions:
       contents: read
+    outputs:
+      matrix: "${{ steps.set-matrix.outputs.matrix }}"
+    steps:
+      - name: "Check Out Source"
+        uses: "actions/checkout@v4"
+
+      - name: "Set Matrix"
+        id: "set-matrix"
+        run: |
+          if [ -n "${{ inputs.file }}" ]; then
+            # Single file specified
+            echo "matrix={\"file\":[\"${{ inputs.file }}\"]}" >> $GITHUB_OUTPUT
+          else
+            # Find all markdown posts
+            files=$(find dev-knot/content/posts -name "*.md" -type f | jq -R -s -c 'split("\n") | map(select(length > 0))')
+            echo "matrix={\"file\":$files}" >> $GITHUB_OUTPUT
+          fi
+
+  post-to-medium:
+    name: "Post to Medium"
+    needs: "discover-posts"
+    runs-on: "ubuntu-latest"
+    permissions:
+      contents: read
+    strategy:
+      matrix: "${{ fromJson(needs.discover-posts.outputs.matrix) }}"
+      max-parallel: 1
+      fail-fast: false
     steps:
       - name: "Check Out Source"
         uses: "actions/checkout@v4"
@@ -24,7 +52,7 @@ jobs:
         uses: "philips-software/post-to-medium-action@v0.6.0"
         with:
           integration_token: "${{ secrets.MEDIUM_INTEGRATION_TOKEN }}"
-          file: "${{ inputs.file }}"
+          file: "${{ matrix.file }}"
           content_format: "markdown"
           notify_followers: "false"
           license: "cc-40-by"

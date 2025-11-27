@@ -33,11 +33,18 @@ Edit away! Check in the feature branch and create a WIP pull request.
 
 ## Publishing to Medium
 
-You can publish blog posts to Medium using the GitHub Actions workflow. The workflow is triggered manually and allows you to specify which markdown file to publish.
+You can publish blog posts to Medium using the GitHub Actions workflow. The workflow is triggered manually and supports both single post and batch publishing.
 
+### Publish a Single Post
 1. Go to the repository on GitHub -> Actions -> Medium
 2. Click "Run workflow"
 3. Specify the path to the markdown file (e.g., `dev-knot/content/posts/dev-ops/nautobot-cookie.md`)
 4. The post will be created as a draft in your Medium account
+
+### Publish All Posts
+1. Go to the repository on GitHub -> Actions -> Medium
+2. Click "Run workflow"
+3. Leave the file input empty
+4. All posts in `dev-knot/content/posts/` will be published as drafts
 
 **Note:** You'll need to set up a `MEDIUM_INTEGRATION_TOKEN` secret in your repository settings. Get this token from your [Medium Security Settings](https://medium.com/me/settings/security) -> Integration Tokens.
