@@ -1,0 +1,30 @@
+---
+name: "Medium"
+
+on: # yamllint disable-line rule:truthy rule:comments
+  workflow_dispatch:
+    inputs:
+      file:
+        description: "Markdown file to publish"
+        required: true
+        type: string
+        default: "dev-knot/content/posts/example/index.md"
+
+jobs:
+  post-to-medium:
+    name: "Post to Medium"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Check Out Source"
+        uses: "actions/checkout@v4"
+
+      - name: "Create Medium Post"
+        uses: "philips-software/post-to-medium-action@v0.6.0"
+        with:
+          integration_token: "${{ secrets.MEDIUM_INTEGRATION_TOKEN }}"
+          file: "${{ inputs.file }}"
+          content_format: "markdown"
+          notify_followers: "false"
+          license: "cc-40-by"
+          publish_status: "draft"
+          parse_frontmatter: "true"
