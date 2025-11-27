@@ -36,7 +36,7 @@ Edit away! Check in the feature branch and create a WIP pull request.
 Blog posts are automatically published to Medium when you push new markdown files to the `main` branch. The workflow uses [blogpub](https://github.com/protiumx/blogpub) which provides **idempotent publishing** - it only publishes new files and skips files that already existed in the previous commit.
 
 ### How it works
-1. Create a new markdown file in `dev-knot/content/posts/`
+1. Create a new markdown file in `blog/posts/`
 2. Add frontmatter with title and tags:
    ```markdown
    ---
@@ -46,6 +46,12 @@ Blog posts are automatically published to Medium when you push new markdown file
    ```
 3. Push to `main` branch
 4. The workflow automatically publishes only the new file to Medium
+
+### Migrating Existing Posts
+To migrate existing posts from `dev-knot/content/posts/` to Medium:
+1. Copy the post to `blog/posts/`
+2. Ensure the frontmatter has `title` and `tags`
+3. Push to `main` - only the newly added file will be published
 
 ### Required Secrets
 Set up these secrets in your repository settings:

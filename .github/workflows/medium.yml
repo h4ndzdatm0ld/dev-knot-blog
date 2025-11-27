@@ -6,7 +6,7 @@ on: # yamllint disable-line rule:truthy rule:comments
     branches:
       - "main"
     paths:
-      - "dev-knot/content/posts/**/*.md"
+      - "blog/posts/**/*.md"
 
 jobs:
   publish:
@@ -24,6 +24,6 @@ jobs:
         uses: "protiumx/blogpub@v0.6.0"
         with:
           gh_token: "${{ secrets.GITHUB_TOKEN }}"
-          articles_folder: "dev-knot/content/posts"
+          articles_folder: "blog/posts"
           medium_token: "${{ secrets.MEDIUM_INTEGRATION_TOKEN }}"
           medium_user_id: "${{ secrets.MEDIUM_USER_ID }}"
