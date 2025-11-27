@@ -1,14 +1,6 @@
 ---
 version: "3.8"
 services:
-  terraform:
-    working_dir: "/usr/src/app"
-    image: "hashicorp/terraform:1.3.5"
-    volumes:
-      - "./terraform/:/usr/src/app/"
-    environment:
-      TF_VAR_gh_access_token: "${TF_VAR_gh_access_token}"
-      TF_TOKEN_app_terraform_io: "${TF_TOKEN_app_terraform_io}"
   blog:
     build: "."
     container_name: "blog"
